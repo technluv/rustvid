@@ -1,0 +1,28 @@
+[package]
+name = "video-editor-effects"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+license.workspace = true
+repository.workspace = true
+homepage.workspace = true
+keywords.workspace = true
+categories.workspace = true
+description = "Video and audio effects system for Rust Video Editor"
+
+[dependencies]
+video-editor-core = { path = "../core" }
+tokio = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+thiserror = { workspace = true }
+anyhow = { workspace = true }
+tracing = { workspace = true }
+
+# Effects processing dependencies
+nalgebra = "0.33"
+image = "0.25"
+rayon = "1.10"
+
+[dev-dependencies]
+tracing-subscriber = { workspace = true }

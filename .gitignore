@@ -1,0 +1,33 @@
+# Rust
+target/
+Cargo.lock
+**/*.rs.bk
+*.pdb
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Project specific
+/output/
+/temp/
+*.mp4
+*.webm
+*.mov
+*.avi
+*.mkv
+
+# Test artifacts
+tarpaulin-report.html
+cobertura.xml
+coverage/
+
+# Logs
+*.log

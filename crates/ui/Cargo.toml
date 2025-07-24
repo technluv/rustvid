@@ -1,0 +1,37 @@
+[package]
+name = "video-editor-ui"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+license.workspace = true
+repository.workspace = true
+homepage.workspace = true
+keywords.workspace = true
+categories.workspace = true
+description = "User interface for Rust Video Editor"
+
+[dependencies]
+video-editor-core = { path = "../core" }
+video-editor-timeline = { path = "../timeline" }
+video-editor-effects = { path = "../effects" }
+tokio = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+thiserror = { workspace = true }
+anyhow = { workspace = true }
+tracing = { workspace = true }
+
+# UI framework to be determined after framework selection
+# Examples:
+# egui = { version = "0.28", optional = true }
+# iced = { version = "0.13", optional = true }
+# tauri = { version = "2.0", optional = true }
+
+[dev-dependencies]
+tracing-subscriber = { workspace = true }
+
+[features]
+default = []
+# egui-ui = ["egui", "eframe"]
+# iced-ui = ["iced"]
+# tauri-ui = ["tauri"]

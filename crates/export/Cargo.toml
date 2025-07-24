@@ -1,0 +1,29 @@
+[package]
+name = "video-editor-export"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+license.workspace = true
+repository.workspace = true
+homepage.workspace = true
+keywords.workspace = true
+categories.workspace = true
+description = "Rendering and export functionality for Rust Video Editor"
+
+[dependencies]
+video-editor-core = { path = "../core" }
+video-editor-timeline = { path = "../timeline" }
+video-editor-effects = { path = "../effects" }
+tokio = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+thiserror = { workspace = true }
+anyhow = { workspace = true }
+tracing = { workspace = true }
+
+# Export/encoding dependencies
+indicatif = "0.17"
+bytes = "1.7"
+
+[dev-dependencies]
+tracing-subscriber = { workspace = true }
