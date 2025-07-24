@@ -8,9 +8,10 @@ repository.workspace = true
 homepage.workspace = true
 keywords.workspace = true
 categories.workspace = true
-description = "Video and audio effects system for Rust Video Editor"
+description = "Effects and filters for Rust Video Editor"
 
 [dependencies]
+# Core dependencies
 video-editor-core = { path = "../core" }
 tokio = { workspace = true }
 serde = { workspace = true }
@@ -18,11 +19,31 @@ serde_json = { workspace = true }
 thiserror = { workspace = true }
 anyhow = { workspace = true }
 tracing = { workspace = true }
+image = { workspace = true }
 
-# Effects processing dependencies
-nalgebra = "0.33"
-image = "0.25"
-rayon = "1.10"
+# GPU acceleration
+wgpu = "0.19"
+bytemuck = { version = "1.14", features = ["derive"] }
+
+# Math and image processing
+glam = "0.25"
+futures = "0.3"
+
+# UUID for effect IDs
+uuid = { version = "1.6", features = ["v4", "serde"] }
+
+# For shader hot-reloading in development
+notify = { version = "6.1", optional = true }
 
 [dev-dependencies]
+criterion = { workspace = true }
+pretty_assertions = { workspace = true }
 tracing-subscriber = { workspace = true }
+
+[features]
+default = []
+hot-reload = ["notify"]
+
+[[bench]]
+name = "effects_benchmark"
+harness = false

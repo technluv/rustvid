@@ -1,0 +1,86 @@
+.video-timeline {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background-color: #1a1a1a;
+  overflow: auto;
+}
+
+.timeline-header {
+  background-color: #2a2a2a;
+  border-bottom: 1px solid #444;
+  padding: 0.5rem;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.timeline-ruler {
+  display: block;
+  background-color: #1a1a1a;
+  border-radius: 4px;
+}
+
+.timeline-tracks {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 1rem 0;
+}
+
+.track {
+  display: flex;
+  min-height: 60px;
+  border-bottom: 1px solid #333;
+  margin-bottom: 0.5rem;
+}
+
+.track-label {
+  width: 100px;
+  padding: 0.5rem;
+  background-color: #2a2a2a;
+  border-right: 1px solid #444;
+  display: flex;
+  align-items: center;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.track-content {
+  flex: 1;
+  padding: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  overflow-x: auto;
+}
+
+.placeholder-clip {
+  background-color: #4a6fa5;
+  border-radius: 4px;
+  padding: 0.5rem 1rem;
+  min-height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.placeholder-clip:hover {
+  transform: scale(1.02);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.placeholder-clip.audio {
+  background-color: #5a8a5a;
+}
+
+.video-track {
+  min-height: 80px;
+}
+
+.audio-track {
+  min-height: 60px;
+}

@@ -18,15 +18,40 @@ thiserror = { workspace = true }
 anyhow = { workspace = true }
 tracing = { workspace = true }
 
-# Video processing dependencies to be added after framework selection
-# Examples:
-# gstreamer = { version = "0.23", optional = true }
-# ffmpeg-next = { version = "7.0", optional = true }
+# Video processing dependencies
+ffmpeg-next = { workspace = true, features = ["build"], optional = true }
+ffmpeg-sys-next = { workspace = true, features = ["build"], optional = true }
+
+# Image processing
+image = { workspace = true }
+
+# Parallel processing
+rayon = { workspace = true }
+
+# Channel for frame queues
+crossbeam-channel = { workspace = true }
 
 [dev-dependencies]
 tracing-subscriber = { workspace = true }
+tempfile = { workspace = true }
+criterion = { workspace = true }
+proptest = { workspace = true }
+mockall = { workspace = true }
+rstest = { workspace = true }
+serial_test = { workspace = true }
+pretty_assertions = { workspace = true }
+test-case = { workspace = true }
 
 [features]
-default = []
+default = ["ffmpeg-backend"]
+ffmpeg-backend = ["ffmpeg-next", "ffmpeg-sys-next"]
 # gstreamer-backend = ["gstreamer", "gstreamer-video", "gstreamer-audio"]
-# ffmpeg-backend = ["ffmpeg-next"]
+integration-tests = []
+
+[[bench]]
+name = "frame_benchmarks"
+harness = false
+
+[[bench]]
+name = "buffer_benchmarks"
+harness = false

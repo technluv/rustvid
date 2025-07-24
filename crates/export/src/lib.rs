@@ -3,8 +3,20 @@
 //! This crate handles the final rendering pipeline and export
 //! to various video formats.
 
+mod encoder;
+mod pipeline;
+mod presets;
+mod job;
+
+pub use encoder::{VideoEncoder, VideoCodec, HardwareEncoder, EncoderConfig};
+pub use pipeline::{RenderPipeline, PipelineConfig, RenderFrame, RenderPipelineHandle};
+pub use presets::{ExportPreset, ExportSettingsBuilder};
+pub use job::{ExportJob, JobStatus, JobPriority, ExportJobManager, JobStatistics};
+
 use thiserror::Error;
 use std::path::PathBuf;
+use std::sync::{Arc, Mutex};
+use tracing::{info, error};
 
 #[derive(Error, Debug)]
 pub enum ExportError {
@@ -65,34 +77,120 @@ pub trait ExportProgress: Send + Sync {
 /// Main export engine
 pub struct ExportEngine {
     settings: ExportSettings,
+    job_manager: Option<Arc<ExportJobManager>>,
 }
 
 impl ExportEngine {
     pub fn new(settings: ExportSettings) -> Self {
-        Self { settings }
+        Self { 
+            settings,
+            job_manager: None,
+        }
     }
     
-    pub async fn export<P: ExportProgress>(
+    /// Create a new export engine with job management
+    pub fn with_job_manager(settings: ExportSettings, job_manager: Arc<ExportJobManager>) -> Self {
+        Self {
+            settings,
+            job_manager: Some(job_manager),
+        }
+    }
+    
+    /// Export a timeline to video
+    pub async fn export<P: ExportProgress + Send + 'static>(
         &self,
-        timeline: &video_editor_timeline::Timeline,
-        progress: &mut P,
+        timeline: Arc<video_editor_timeline::Timeline>,
+        progress: Arc<Mutex<P>>,
     ) -> Result<()> {
         // Validate settings
         if self.settings.width == 0 || self.settings.height == 0 {
             return Err(ExportError::InvalidSettings);
         }
         
-        // Export implementation would go here
-        progress.on_progress(0.0, "Starting export...");
+        info!("Starting export: {:?}", self.settings.output_path);
         
-        // Simulate export progress
-        for i in 0..=100 {
-            progress.on_progress(i as f32, &format!("Exporting... {}%", i));
-            tokio::time::sleep(tokio::time::Duration::from_millis(10)).await;
-        }
+        // Create encoder config
+        let encoder_config = EncoderConfig::from(&self.settings);
         
-        progress.on_complete();
+        // Initialize video encoder
+        let mut encoder = VideoEncoder::new(encoder_config.clone(), &self.settings.output_path)?;
+        encoder.initialize()?;
+        
+        // Create effect processor
+        let effect_processor = Arc::new(video_editor_effects::EffectProcessor::new());
+        
+        // Create render pipeline
+        let pipeline_config = PipelineConfig {
+            resolution: video_editor_core::Resolution::new(self.settings.width, self.settings.height),
+            fps: self.settings.fps,
+            pixel_format: video_editor_core::PixelFormat::RGBA8,
+            buffer_size: 60,
+            worker_threads: num_cpus::get(),
+        };
+        
+        let pipeline = RenderPipeline::new(
+            pipeline_config,
+            timeline,
+            effect_processor,
+        );
+        
+        // Start render pipeline
+        let pipeline_handle = pipeline.start(progress.clone())?;
+        let frame_receiver = pipeline_handle.frame_receiver();
+        let total_frames = pipeline_handle.total_frames();
+        
+        // Encode frames as they come from the pipeline
+        let encoding_thread = std::thread::spawn(move || -> Result<()> {
+            let mut encoded_frames = 0u64;
+            
+            while let Ok(frame) = frame_receiver.recv() {
+                // Convert frame to format expected by encoder
+                // Note: In a real implementation, you'd need to convert from RGBA to YUV420P
+                encoder.encode_frame(&frame.data)?;
+                
+                encoded_frames += 1;
+                
+                // Update progress (50-100% range for encoding)
+                let encoding_progress = 50.0 + (encoded_frames as f32 / total_frames as f32) * 50.0;
+                if let Ok(mut p) = progress.lock() {
+                    p.on_progress(
+                        encoding_progress,
+                        &format!("Encoding frame {}/{}", encoded_frames, total_frames)
+                    );
+                }
+            }
+            
+            // Finalize encoding
+            encoder.finalize()?;
+            
+            info!("Export completed successfully");
+            if let Ok(mut p) = progress.lock() {
+                p.on_complete();
+            }
+            
+            Ok(())
+        });
+        
+        // Wait for pipeline to complete
+        pipeline_handle.wait()?;
+        
+        // Wait for encoding to complete
+        encoding_thread.join()
+            .map_err(|_| ExportError::ExportFailed("Encoding thread panicked".to_string()))??;
+        
         Ok(())
+    }
+    
+    /// Export with a preset
+    pub async fn export_with_preset<P: ExportProgress + Send + 'static>(
+        preset: ExportPreset,
+        output_path: PathBuf,
+        timeline: Arc<video_editor_timeline::Timeline>,
+        progress: Arc<Mutex<P>>,
+    ) -> Result<()> {
+        let settings = preset.to_settings(output_path);
+        let engine = ExportEngine::new(settings);
+        engine.export(timeline, progress).await
     }
 }
 

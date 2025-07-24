@@ -1,0 +1,81 @@
+{
+  "sessionId": "session-1753387870307-f6303y6fv",
+  "checkpointId": "checkpoint-1753387900308-jafyz5kzz",
+  "checkpointName": "auto-save-1753387900308",
+  "timestamp": "2025-07-24T20:11:40.308Z",
+  "data": {
+    "timestamp": "2025-07-24T20:11:40.308Z",
+    "changeCount": 5,
+    "changesByType": {
+      "swarm_created": [
+        {
+          "type": "swarm_created",
+          "data": {
+            "swarmId": "swarm-1753387870304-14skwnmd1",
+            "swarmName": "swarm-1753387870276",
+            "objective": "General task coordination",
+            "workerCount": 8
+          },
+          "timestamp": "2025-07-24T20:11:10.307Z"
+        }
+      ],
+      "agent_activity": [
+        {
+          "type": "agent_activity",
+          "data": {
+            "agentId": "worker-swarm-1753387870304-14skwnmd1-0",
+            "activity": "spawned",
+            "data": {
+              "type": "researcher",
+              "name": "Researcher Worker 1"
+            }
+          },
+          "timestamp": "2025-07-24T20:11:10.312Z"
+        },
+        {
+          "type": "agent_activity",
+          "data": {
+            "agentId": "worker-swarm-1753387870304-14skwnmd1-1",
+            "activity": "spawned",
+            "data": {
+              "type": "coder",
+              "name": "Coder Worker 2"
+            }
+          },
+          "timestamp": "2025-07-24T20:11:10.315Z"
+        },
+        {
+          "type": "agent_activity",
+          "data": {
+            "agentId": "worker-swarm-1753387870304-14skwnmd1-2",
+            "activity": "spawned",
+            "data": {
+              "type": "analyst",
+              "name": "Analyst Worker 3"
+            }
+          },
+          "timestamp": "2025-07-24T20:11:10.317Z"
+        },
+        {
+          "type": "agent_activity",
+          "data": {
+            "agentId": "worker-swarm-1753387870304-14skwnmd1-3",
+            "activity": "spawned",
+            "data": {
+              "type": "tester",
+              "name": "Tester Worker 4"
+            }
+          },
+          "timestamp": "2025-07-24T20:11:10.319Z"
+        }
+      ]
+    },
+    "statistics": {
+      "tasksProcessed": 0,
+      "tasksCompleted": 0,
+      "memoryUpdates": 0,
+      "agentActivities": 4,
+      "consensusDecisions": 0
+    }
+  }
+}

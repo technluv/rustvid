@@ -2,39 +2,59 @@
 //! 
 //! This crate provides the fundamental video processing capabilities
 //! including frame handling, codec abstraction, and pipeline management.
+//! 
+//! # Architecture
+//! 
+//! The core library is organized around several key concepts:
+//! 
+//! - **Traits**: Define the interfaces for video processing operations
+//! - **Frame**: Represents individual video frames with metadata
+//! - **Decoder**: FFmpeg-based video decoding implementation
+//! - **Buffer**: High-performance frame buffering system
+//! - **Error**: Comprehensive error handling for all operations
+//! 
+//! # Example
+//! 
+//! ```no_run
+//! use rust_video_core::{Frame, VideoFormat, traits::*};
+//! use std::time::Duration;
+//! 
+//! // Create a new frame
+//! let frame = Frame::new(1920, 1080, PixelFormat::RGB24, Duration::from_secs(0))
+//!     .expect("Failed to create frame");
+//! ```
 
-use thiserror::Error;
+// Public modules
+pub mod error;
+pub mod frame;
+pub mod traits;
+pub mod decoder;
+pub mod buffer;
+pub mod pipeline;
 
-#[derive(Error, Debug)]
-pub enum CoreError {
-    #[error("Video processing error: {0}")]
-    ProcessingError(String),
-    
-    #[error("Codec error: {0}")]
-    CodecError(String),
-    
-    #[error("IO error: {0}")]
-    IoError(#[from] std::io::Error),
-}
+// Re-exports for convenience
+pub use error::{VideoError, Result};
+pub use frame::{Frame, FrameBuilder, FrameMetadata, ColorSpace, HdrMetadata};
+pub use traits::{
+    VideoDecoder, VideoEncoder, VideoProcessor, VideoFilter,
+    PixelFormat, PixelFormatConverter,
+    VideoDemuxer, VideoMuxer, EncodingStats,
+    FilterParameter, FilterParameterInfo, FilterParameterType,
+    MediaInfo, StreamInfo, StreamType, Packet,
+    VideoStreamInfo, AudioStreamInfo,
+};
 
-pub type Result<T> = std::result::Result<T, CoreError>;
-
-/// Represents a video frame
-#[derive(Debug, Clone)]
-pub struct Frame {
-    pub timestamp: std::time::Duration,
-    pub width: u32,
-    pub height: u32,
-    pub data: Vec<u8>,
-}
+use serde::{Serialize, Deserialize};
 
 /// Video format information
-#[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct VideoFormat {
     pub width: u32,
     pub height: u32,
     pub fps: f32,
     pub codec: String,
+    pub duration_ms: Option<u64>,
+    pub bit_rate: Option<u64>,
 }
 
 #[cfg(test)]
