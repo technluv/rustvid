@@ -1,0 +1,81 @@
+{
+  "sessionId": "session-1753446329400-8nd2bgqoc",
+  "checkpointId": "checkpoint-1753446359401-6eqs2pdmb",
+  "checkpointName": "auto-save-1753446359401",
+  "timestamp": "2025-07-25T12:25:59.401Z",
+  "data": {
+    "timestamp": "2025-07-25T12:25:59.401Z",
+    "changeCount": 5,
+    "changesByType": {
+      "swarm_created": [
+        {
+          "type": "swarm_created",
+          "data": {
+            "swarmId": "swarm-1753446329397-c7cndqzor",
+            "swarmName": "hive-1753446329393",
+            "objective": "Complete final deployment and optimization for Rust Video Editor production release",
+            "workerCount": 8
+          },
+          "timestamp": "2025-07-25T12:25:29.400Z"
+        }
+      ],
+      "agent_activity": [
+        {
+          "type": "agent_activity",
+          "data": {
+            "agentId": "worker-swarm-1753446329397-c7cndqzor-0",
+            "activity": "spawned",
+            "data": {
+              "type": "researcher",
+              "name": "Researcher Worker 1"
+            }
+          },
+          "timestamp": "2025-07-25T12:25:29.401Z"
+        },
+        {
+          "type": "agent_activity",
+          "data": {
+            "agentId": "worker-swarm-1753446329397-c7cndqzor-1",
+            "activity": "spawned",
+            "data": {
+              "type": "coder",
+              "name": "Coder Worker 2"
+            }
+          },
+          "timestamp": "2025-07-25T12:25:29.401Z"
+        },
+        {
+          "type": "agent_activity",
+          "data": {
+            "agentId": "worker-swarm-1753446329397-c7cndqzor-2",
+            "activity": "spawned",
+            "data": {
+              "type": "analyst",
+              "name": "Analyst Worker 3"
+            }
+          },
+          "timestamp": "2025-07-25T12:25:29.401Z"
+        },
+        {
+          "type": "agent_activity",
+          "data": {
+            "agentId": "worker-swarm-1753446329397-c7cndqzor-3",
+            "activity": "spawned",
+            "data": {
+              "type": "tester",
+              "name": "Tester Worker 4"
+            }
+          },
+          "timestamp": "2025-07-25T12:25:29.401Z"
+        }
+      ]
+    },
+    "statistics": {
+      "tasksProcessed": 0,
+      "tasksCompleted": 0,
+      "memoryUpdates": 0,
+      "agentActivities": 4,
+      "consensusDecisions": 0
+    }
+  }
+}
