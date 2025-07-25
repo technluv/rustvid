@@ -1,0 +1,65 @@
+{
+  "updater": {
+    "endpoints": [
+      {
+        "url": "https://api.rustvideo.com/update/{{target}}/{{current_version}}",
+        "fallback": "https://github.com/rustvideo/editor/releases/latest/download/update-manifest.json"
+      }
+    ],
+    "pubkey": "YOUR_PUBLIC_KEY_HERE",
+    "dialog": {
+      "title": "Update Available",
+      "body": "A new version of Rust Video Editor (v{{version}}) is available. Would you like to update now?",
+      "confirm_button": "Update Now",
+      "cancel_button": "Later"
+    },
+    "windows": {
+      "install_mode": "quiet",
+      "installer_args": ["/quiet", "/norestart"],
+      "msi_properties": {
+        "REINSTALLMODE": "amus",
+        "REINSTALL": "ALL"
+      }
+    },
+    "macos": {
+      "install_mode": "background",
+      "quarantine_aware": true,
+      "require_notarization": true
+    },
+    "linux": {
+      "install_mode": "replace",
+      "backup_current": true,
+      "verify_signature": true
+    }
+  },
+  "channels": {
+    "stable": {
+      "enabled": true,
+      "url": "https://api.rustvideo.com/channels/stable/latest"
+    },
+    "beta": {
+      "enabled": false,
+      "url": "https://api.rustvideo.com/channels/beta/latest"
+    },
+    "nightly": {
+      "enabled": false,
+      "url": "https://api.rustvideo.com/channels/nightly/latest"
+    }
+  },
+  "settings": {
+    "auto_check": true,
+    "check_interval_hours": 24,
+    "download_in_background": true,
+    "show_release_notes": true,
+    "allow_downgrade": false,
+    "require_user_interaction": true,
+    "verify_checksum": true,
+    "max_download_attempts": 3,
+    "timeout_seconds": 300
+  },
+  "rollback": {
+    "enabled": true,
+    "keep_versions": 1,
+    "auto_rollback_on_error": true
+  }
+}

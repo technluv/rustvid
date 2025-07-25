@@ -1,0 +1,139 @@
+{
+  "name": "Rust Video Editor",
+  "short_name": "RustVideoEdit",
+  "description": "Professional video editing powered by Rust and WebAssembly",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0a0a0a",
+  "theme_color": "#1a1a1a",
+  "orientation": "landscape",
+  "categories": ["productivity", "multimedia", "video"],
+  "icons": [
+    {
+      "src": "/icons/icon-32.png",
+      "sizes": "32x32",
+      "type": "image/png"
+    },
+    {
+      "src": "/icons/icon-64.png",
+      "sizes": "64x64",
+      "type": "image/png"
+    },
+    {
+      "src": "/icons/icon-128.png",
+      "sizes": "128x128",
+      "type": "image/png"
+    },
+    {
+      "src": "/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/icon-256.png",
+      "sizes": "256x256",
+      "type": "image/png"
+    },
+    {
+      "src": "/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/screenshots/desktop-1.png",
+      "sizes": "1920x1080",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "Video editing interface"
+    },
+    {
+      "src": "/screenshots/desktop-2.png",
+      "sizes": "1920x1080",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "Effects and transitions"
+    },
+    {
+      "src": "/screenshots/mobile-1.png",
+      "sizes": "750x1334",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Mobile editing view"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "New Project",
+      "short_name": "New",
+      "description": "Create a new video project",
+      "url": "/?action=new",
+      "icons": [{ "src": "/icons/new-project.png", "sizes": "96x96" }]
+    },
+    {
+      "name": "Open Project",
+      "short_name": "Open",
+      "description": "Open an existing project",
+      "url": "/?action=open",
+      "icons": [{ "src": "/icons/open-project.png", "sizes": "96x96" }]
+    }
+  ],
+  "protocol_handlers": [
+    {
+      "protocol": "web+rustvideoeditor",
+      "url": "/?project=%s"
+    }
+  ],
+  "file_handlers": [
+    {
+      "action": "/",
+      "name": "Video files",
+      "accept": {
+        "video/mp4": [".mp4"],
+        "video/webm": [".webm"],
+        "video/quicktime": [".mov"],
+        "video/x-msvideo": [".avi"]
+      }
+    },
+    {
+      "action": "/",
+      "name": "Project files",
+      "accept": {
+        "application/x-rustvideoeditor": [".rvep"]
+      }
+    }
+  ],
+  "launch_handler": {
+    "client_mode": ["navigate-new", "navigate-existing", "focus-existing"]
+  },
+  "share_target": {
+    "action": "/share",
+    "method": "POST",
+    "enctype": "multipart/form-data",
+    "params": {
+      "title": "title",
+      "text": "text",
+      "url": "url",
+      "files": [
+        {
+          "name": "video",
+          "accept": ["video/*"]
+        }
+      ]
+    }
+  },
+  "prefer_related_applications": false,
+  "related_applications": [
+    {
+      "platform": "play",
+      "url": "https://play.google.com/store/apps/details?id=com.rustvideoeditor.app"
+    },
+    {
+      "platform": "webapp",
+      "url": "https://rustvideoeditor.com/manifest.json"
+    }
+  ]
+}

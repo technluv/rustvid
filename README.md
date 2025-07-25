@@ -29,14 +29,47 @@ A high-performance, open-source video editor built with Rust and Tauri. Designed
 - **Cross-platform** support (Linux, Windows, macOS)
 - **No telemetry** or user tracking
 
-## 🚀 Quick Start
+## 📦 Installation
 
-### Prerequisites
+### Download Pre-built Releases
+
+The easiest way to get started is to download a pre-built release for your platform:
+
+[![Windows](https://img.shields.io/badge/Windows-0078D6?logo=windows&logoColor=white)](https://github.com/your-org/rust-video-editor/releases/latest/download/rust-video-editor_windows_x64.msi)
+[![macOS](https://img.shields.io/badge/macOS-000000?logo=apple&logoColor=white)](https://github.com/your-org/rust-video-editor/releases/latest/download/rust-video-editor_macos.dmg)
+[![Linux](https://img.shields.io/badge/Linux-FCC624?logo=linux&logoColor=black)](https://github.com/your-org/rust-video-editor/releases/latest/download/rust-video-editor_linux.AppImage)
+
+**Windows**: Download `.msi` installer and run
+**macOS**: Download `.dmg`, open, and drag to Applications
+**Linux**: Download `.AppImage`, make executable with `chmod +x`, and run
+
+### Build from Source
+
+#### Prerequisites
 - Rust 1.70+ with Cargo
 - Node.js 18+ with npm
 - FFmpeg development libraries
 
-### Installation
+#### Platform-specific Dependencies
+
+**Ubuntu/Debian:**
+```bash
+sudo apt-get update
+sudo apt-get install libavcodec-dev libavformat-dev libavutil-dev libswscale-dev \
+                     libavfilter-dev libavdevice-dev pkg-config build-essential
+```
+
+**macOS:**
+```bash
+brew install ffmpeg pkg-config
+```
+
+**Windows:**
+- Install [Visual Studio Build Tools](https://visualstudio.microsoft.com/downloads/)
+- Download [FFmpeg dev libraries](https://www.gyan.dev/ffmpeg/builds/)
+- Set `FFMPEG_DIR` environment variable
+
+#### Build Instructions
 
 ```bash
 # Clone the repository
@@ -49,20 +82,30 @@ cd crates/ui/ui && npm install && cd ../../..
 # Build and run in development mode
 cd crates/ui
 cargo tauri dev
-```
 
-### Production Build
-
-```bash
-# Build for release
+# Build for production
 cargo tauri build
-
-# Run tests
-cargo test --all
-
-# Run benchmarks
-cargo bench
 ```
+
+## 🚀 Quick Start
+
+### 5-Minute Tutorial
+
+1. **Launch the editor** - Double-click the app icon or run from terminal
+2. **Create a project** - `Ctrl/Cmd+N` → Choose 1080p 30fps → Create
+3. **Import media** - Drag videos/images into the Media Browser
+4. **Edit timeline** - Drag clips to timeline, trim by dragging edges
+5. **Add effects** - Select clip → Browse Effects → Double-click to apply
+6. **Export video** - `Ctrl/Cmd+E` → Choose preset → Export
+
+See our [Quick Start Guide](docs/QUICK_START.md) for detailed instructions.
+
+## 📖 Documentation
+
+- [User Manual](docs/USER_MANUAL.md) - Complete guide with screenshots
+- [Quick Start Guide](docs/QUICK_START.md) - Get editing in 5 minutes
+- [API Documentation](https://docs.rs/rust-video-editor) - For developers
+- [Architecture Guide](docs/ARCHITECTURE.md) - System design details
 
 ## 🏗️ Architecture
 

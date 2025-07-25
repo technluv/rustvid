@@ -1,0 +1,458 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version to release (e.g., 1.0.0)'
+        required: true
+        type: string
+
+env:
+  CARGO_TERM_COLOR: always
+  RUST_BACKTRACE: 1
+
+jobs:
+  create-release:
+    name: Create GitHub Release
+    runs-on: ubuntu-latest
+    outputs:
+      upload_url: ${{ steps.create_release.outputs.upload_url }}
+      version: ${{ steps.get_version.outputs.version }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Get version
+        id: get_version
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            VERSION="${{ github.event.inputs.version }}"
+          else
+            VERSION=${GITHUB_REF#refs/tags/v}
+          fi
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+
+      - name: Generate release notes
+        id: release_notes
+        run: |
+          cat > release-notes.md << 'EOF'
+          # Rust Video Editor v${{ steps.get_version.outputs.version }}
+
+          ## What's New
+          
+          ### Features
+          - Multi-track timeline editing with real-time preview
+          - GPU-accelerated rendering pipeline
+          - Professional color grading tools
+          - Advanced audio editing capabilities
+          - Plugin system for extensibility
+          
+          ### Improvements
+          - Performance optimizations for 4K+ video editing
+          - Enhanced UI responsiveness
+          - Better memory management
+          
+          ### Bug Fixes
+          - Fixed timeline synchronization issues
+          - Resolved export quality settings
+          - Corrected audio sync problems
+          
+          ## Installation
+          
+          ### Windows
+          - Download the `.msi` installer for automated installation
+          - Download the `.zip` for portable usage
+          
+          ### macOS
+          - Download the `.dmg` for drag-and-drop installation
+          - Download the `.zip` for portable usage
+          
+          ### Linux
+          - Download the `.AppImage` for universal compatibility
+          - Download the `.deb` for Debian/Ubuntu systems
+          - Download the `.rpm` for Fedora/RHEL systems
+          - Download the `.tar.gz` for manual installation
+          
+          ## Checksums
+          
+          SHA256 checksums are available in `checksums-all.txt`
+          
+          ## System Requirements
+          
+          - **OS**: Windows 10+, macOS 10.15+, Linux (glibc 2.17+)
+          - **CPU**: 64-bit processor with SSE4.2 support
+          - **RAM**: 8GB minimum, 16GB recommended
+          - **GPU**: OpenGL 4.5 or Vulkan 1.1 support
+          - **Storage**: 500MB for application, additional space for projects
+          
+          ---
+          
+          **Full Changelog**: https://github.com/${{ github.repository }}/compare/v${{ steps.get_version.outputs.prev_version }}...v${{ steps.get_version.outputs.version }}
+          EOF
+
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: v${{ steps.get_version.outputs.version }}
+          release_name: Rust Video Editor v${{ steps.get_version.outputs.version }}
+          body_path: release-notes.md
+          draft: true
+          prerelease: false
+
+  build-windows:
+    name: Build Windows
+    runs-on: windows-latest
+    needs: create-release
+    strategy:
+      matrix:
+        include:
+          - target: x86_64-pc-windows-msvc
+            arch: x64
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: ${{ matrix.target }}
+
+      - name: Cache Rust dependencies
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+            target
+          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+
+      - name: Build application
+        run: cargo build --release --target ${{ matrix.target }}
+
+      - name: Download FFmpeg
+        run: |
+          Invoke-WebRequest -Uri "https://github.com/BtbN/FFmpeg-Builds/releases/download/latest/ffmpeg-master-latest-win64-gpl.zip" -OutFile "ffmpeg.zip"
+          Expand-Archive -Path "ffmpeg.zip" -DestinationPath "ffmpeg-temp"
+          New-Item -ItemType Directory -Force -Path "ffmpeg/windows"
+          Copy-Item -Path "ffmpeg-temp/*/bin/*" -Destination "ffmpeg/windows/" -Recurse
+
+      - name: Install WiX Toolset
+        run: |
+          Invoke-WebRequest -Uri "https://github.com/wixtoolset/wix3/releases/download/wix3112rtm/wix311.exe" -OutFile "wix.exe"
+          Start-Process -FilePath "wix.exe" -ArgumentList "/quiet" -Wait
+
+      - name: Build installer
+        run: |
+          $env:Path += ";${env:ProgramFiles(x86)}\WiX Toolset v3.11\bin"
+          powershell -ExecutionPolicy Bypass -File scripts/build-windows.ps1 -Version "${{ needs.create-release.outputs.version }}"
+
+      - name: Sign executables (if certificate available)
+        if: env.WINDOWS_CERTIFICATE != ''
+        env:
+          WINDOWS_CERTIFICATE: ${{ secrets.WINDOWS_CERTIFICATE }}
+          WINDOWS_CERTIFICATE_PASSWORD: ${{ secrets.WINDOWS_CERTIFICATE_PASSWORD }}
+        run: |
+          $cert = [System.Convert]::FromBase64String($env:WINDOWS_CERTIFICATE)
+          $certPath = "cert.pfx"
+          [System.IO.File]::WriteAllBytes($certPath, $cert)
+          
+          # Sign files
+          $files = Get-ChildItem -Path "dist/windows" -Include "*.exe","*.msi" -Recurse
+          foreach ($file in $files) {
+            signtool sign /f $certPath /p $env:WINDOWS_CERTIFICATE_PASSWORD /t http://timestamp.sectigo.com /fd sha256 $file.FullName
+          }
+          
+          Remove-Item $certPath
+
+      - name: Upload Windows MSI
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ needs.create-release.outputs.upload_url }}
+          asset_path: ./dist/windows/RustVideoEditor-${{ needs.create-release.outputs.version }}-windows.msi
+          asset_name: RustVideoEditor-${{ needs.create-release.outputs.version }}-windows-${{ matrix.arch }}.msi
+          asset_content_type: application/x-msi
+
+      - name: Upload Windows ZIP
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ needs.create-release.outputs.upload_url }}
+          asset_path: ./dist/windows/RustVideoEditor-${{ needs.create-release.outputs.version }}-windows-portable.zip
+          asset_name: RustVideoEditor-${{ needs.create-release.outputs.version }}-windows-${{ matrix.arch }}-portable.zip
+          asset_content_type: application/zip
+
+  build-macos:
+    name: Build macOS
+    runs-on: macos-latest
+    needs: create-release
+    strategy:
+      matrix:
+        include:
+          - target: x86_64-apple-darwin
+            arch: x64
+          - target: aarch64-apple-darwin
+            arch: arm64
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: x86_64-apple-darwin,aarch64-apple-darwin
+
+      - name: Cache Rust dependencies
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+            target
+          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+
+      - name: Build application
+        run: |
+          cargo build --release --target x86_64-apple-darwin
+          cargo build --release --target aarch64-apple-darwin
+
+      - name: Download FFmpeg
+        run: |
+          # Download pre-built FFmpeg for macOS
+          curl -L "https://evermeet.cx/ffmpeg/getrelease/zip" -o ffmpeg.zip
+          unzip ffmpeg.zip -d ffmpeg/macos/
+
+      - name: Build universal binary and packages
+        run: |
+          chmod +x scripts/build-macos.sh
+          ./scripts/build-macos.sh --version "${{ needs.create-release.outputs.version }}"
+
+      - name: Code sign and notarize (if certificates available)
+        if: env.MACOS_CERTIFICATE != ''
+        env:
+          MACOS_CERTIFICATE: ${{ secrets.MACOS_CERTIFICATE }}
+          MACOS_CERTIFICATE_PWD: ${{ secrets.MACOS_CERTIFICATE_PWD }}
+          MACOS_SIGNING_IDENTITY: ${{ secrets.MACOS_SIGNING_IDENTITY }}
+          MACOS_NOTARIZATION_APPLE_ID: ${{ secrets.MACOS_NOTARIZATION_APPLE_ID }}
+          MACOS_NOTARIZATION_PWD: ${{ secrets.MACOS_NOTARIZATION_PWD }}
+        run: |
+          # Import certificate
+          echo $MACOS_CERTIFICATE | base64 --decode > certificate.p12
+          security create-keychain -p actions temp.keychain
+          security default-keychain -s temp.keychain
+          security unlock-keychain -p actions temp.keychain
+          security import certificate.p12 -k temp.keychain -P $MACOS_CERTIFICATE_PWD -T /usr/bin/codesign
+          security set-key-partition-list -S apple-tool:,apple:,codesign: -s -k actions temp.keychain
+          
+          # Sign and notarize
+          ./scripts/build-macos.sh \
+            --version "${{ needs.create-release.outputs.version }}" \
+            --sign "$MACOS_SIGNING_IDENTITY" \
+            --notarize "$MACOS_NOTARIZATION_APPLE_ID" "$MACOS_NOTARIZATION_PWD"
+
+      - name: Upload macOS DMG
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ needs.create-release.outputs.upload_url }}
+          asset_path: ./dist/macos/RustVideoEditor-${{ needs.create-release.outputs.version }}-macos.dmg
+          asset_name: RustVideoEditor-${{ needs.create-release.outputs.version }}-macos-universal.dmg
+          asset_content_type: application/x-apple-diskimage
+
+      - name: Upload macOS ZIP
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ needs.create-release.outputs.upload_url }}
+          asset_path: ./dist/macos/RustVideoEditor-${{ needs.create-release.outputs.version }}-macos.zip
+          asset_name: RustVideoEditor-${{ needs.create-release.outputs.version }}-macos-universal.zip
+          asset_content_type: application/zip
+
+  build-linux:
+    name: Build Linux
+    runs-on: ubuntu-20.04
+    needs: create-release
+    strategy:
+      matrix:
+        include:
+          - target: x86_64-unknown-linux-gnu
+            arch: x64
+          - target: aarch64-unknown-linux-gnu
+            arch: arm64
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            libgtk-3-dev \
+            libwebkit2gtk-4.0-dev \
+            libssl-dev \
+            libayatana-appindicator3-dev \
+            librsvg2-dev \
+            libasound2-dev \
+            libpulse-dev \
+            libxdo-dev \
+            libxcb-shape0-dev \
+            libxcb-xfixes0-dev \
+            rpm
+
+      - name: Install cross-compilation tools for ARM64
+        if: matrix.arch == 'arm64'
+        run: |
+          sudo apt-get install -y gcc-aarch64-linux-gnu
+          echo "CARGO_TARGET_AARCH64_UNKNOWN_LINUX_GNU_LINKER=aarch64-linux-gnu-gcc" >> $GITHUB_ENV
+
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: ${{ matrix.target }}
+
+      - name: Cache Rust dependencies
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+            target
+          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+
+      - name: Build application
+        run: cargo build --release --target ${{ matrix.target }}
+
+      - name: Download FFmpeg
+        run: |
+          # Download pre-built FFmpeg
+          if [ "${{ matrix.arch }}" = "x64" ]; then
+            wget -q https://johnvansickle.com/ffmpeg/releases/ffmpeg-release-amd64-static.tar.xz
+            tar xf ffmpeg-release-amd64-static.tar.xz
+            mkdir -p ffmpeg/linux
+            cp ffmpeg-*-amd64-static/ffmpeg ffmpeg/linux/
+            cp ffmpeg-*-amd64-static/ffprobe ffmpeg/linux/
+          fi
+
+      - name: Build packages
+        run: |
+          chmod +x scripts/build-linux.sh
+          ./scripts/build-linux.sh \
+            --version "${{ needs.create-release.outputs.version }}" \
+            --arch "${{ matrix.arch }}"
+
+      - name: Upload Linux AppImage
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ needs.create-release.outputs.upload_url }}
+          asset_path: ./dist/linux/RustVideoEditor-${{ needs.create-release.outputs.version }}-linux-${{ matrix.arch }}.AppImage
+          asset_name: RustVideoEditor-${{ needs.create-release.outputs.version }}-linux-${{ matrix.arch }}.AppImage
+          asset_content_type: application/x-executable
+
+      - name: Upload Linux DEB
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ needs.create-release.outputs.upload_url }}
+          asset_path: ./dist/linux/rustvideo_${{ needs.create-release.outputs.version }}_${{ matrix.arch == 'x64' && 'amd64' || 'arm64' }}.deb
+          asset_name: rustvideo_${{ needs.create-release.outputs.version }}_${{ matrix.arch == 'x64' && 'amd64' || 'arm64' }}.deb
+          asset_content_type: application/x-debian-package
+
+      - name: Upload Linux RPM
+        if: matrix.arch == 'x64'
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ needs.create-release.outputs.upload_url }}
+          asset_path: ./dist/linux/rustvideo-${{ needs.create-release.outputs.version }}-1.x86_64.rpm
+          asset_name: rustvideo-${{ needs.create-release.outputs.version }}-1.x86_64.rpm
+          asset_content_type: application/x-rpm
+
+      - name: Upload Linux Tarball
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ needs.create-release.outputs.upload_url }}
+          asset_path: ./dist/linux/rustvideo-${{ needs.create-release.outputs.version }}-linux-${{ matrix.arch }}.tar.gz
+          asset_name: rustvideo-${{ needs.create-release.outputs.version }}-linux-${{ matrix.arch }}.tar.gz
+          asset_content_type: application/gzip
+
+  finalize-release:
+    name: Finalize Release
+    runs-on: ubuntu-latest
+    needs: [create-release, build-windows, build-macos, build-linux]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Generate combined checksums
+        run: |
+          # Download all artifacts
+          mkdir -p artifacts
+          gh release download v${{ needs.create-release.outputs.version }} --dir artifacts || true
+          
+          # Generate checksums
+          cd artifacts
+          sha256sum * > checksums-all.txt
+          
+          # Upload checksums
+          gh release upload v${{ needs.create-release.outputs.version }} checksums-all.txt --clobber
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Update latest release tag
+        run: |
+          git tag -f latest
+          git push origin latest --force
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Publish release
+        run: |
+          gh release edit v${{ needs.create-release.outputs.version }} --draft=false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Update auto-updater manifest
+        run: |
+          # Generate update manifest
+          cat > update-manifest.json << EOF
+          {
+            "version": "${{ needs.create-release.outputs.version }}",
+            "pub_date": "$(date -u +"%Y-%m-%dT%H:%M:%SZ")",
+            "platforms": {
+              "windows-x64": {
+                "url": "https://github.com/${{ github.repository }}/releases/download/v${{ needs.create-release.outputs.version }}/RustVideoEditor-${{ needs.create-release.outputs.version }}-windows-x64.msi",
+                "signature": ""
+              },
+              "darwin-universal": {
+                "url": "https://github.com/${{ github.repository }}/releases/download/v${{ needs.create-release.outputs.version }}/RustVideoEditor-${{ needs.create-release.outputs.version }}-macos-universal.dmg",
+                "signature": ""
+              },
+              "linux-x64": {
+                "url": "https://github.com/${{ github.repository }}/releases/download/v${{ needs.create-release.outputs.version }}/RustVideoEditor-${{ needs.create-release.outputs.version }}-linux-x64.AppImage",
+                "signature": ""
+              }
+            }
+          }
+          EOF
+          
+          # Upload to a stable URL for auto-updater
+          gh release upload v${{ needs.create-release.outputs.version }} update-manifest.json --clobber
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

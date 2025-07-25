@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Rust Video Editor - Lightning-fast, WebAssembly-powered video editing in your browser">
+    <title>Rust Video Editor - Professional Video Editing in Your Browser</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/svg+xml" href="assets/icons/favicon.svg">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-wrapper">
+                <a href="#" class="logo">
+                    <svg class="logo-icon" viewBox="0 0 40 40">
+                        <path d="M20 5 L35 20 L20 35 L5 20 Z" fill="#ff6b6b"/>
+                        <circle cx="20" cy="20" r="8" fill="white"/>
+                        <path d="M17 15 L17 25 L25 20 Z" fill="#ff6b6b"/>
+                    </svg>
+                    <span>Rust Video Editor</span>
+                </a>
+                <div class="nav-menu">
+                    <a href="#features" class="nav-link">Features</a>
+                    <a href="#performance" class="nav-link">Performance</a>
+                    <a href="#demos" class="nav-link">Demos</a>
+                    <a href="#pricing" class="nav-link">Pricing</a>
+                    <a href="#docs" class="nav-link">Documentation</a>
+                    <a href="#" class="btn btn-primary">Try Now</a>
+                </div>
+                <button class="mobile-menu-toggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1 class="hero-title">
+                        Professional Video Editing
+                        <span class="gradient-text">Powered by Rust & WebAssembly</span>
+                    </h1>
+                    <p class="hero-description">
+                        Experience lightning-fast video editing directly in your browser. No downloads, no installations. 
+                        Just pure performance powered by Rust and WebAssembly.
+                    </p>
+                    <div class="hero-actions">
+                        <a href="#" class="btn btn-primary btn-large" onclick="launchEditor()">Launch Editor</a>
+                        <a href="#demos" class="btn btn-outline btn-large">Watch Demo</a>
+                    </div>
+                    <div class="hero-stats">
+                        <div class="stat">
+                            <span class="stat-value">10x</span>
+                            <span class="stat-label">Faster Rendering</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-value">60fps</span>
+                            <span class="stat-label">Real-time Preview</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-value">0</span>
+                            <span class="stat-label">Installation Required</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="hero-visual">
+                    <div class="editor-preview">
+                        <div class="editor-header">
+                            <span class="dot red"></span>
+                            <span class="dot yellow"></span>
+                            <span class="dot green"></span>
+                        </div>
+                        <div class="editor-body">
+                            <canvas id="hero-canvas" width="600" height="338"></canvas>
+                            <div class="timeline-preview">
+                                <div class="timeline-track"></div>
+                                <div class="timeline-track"></div>
+                                <div class="timeline-track"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Powerful Features for Professional Editing</h2>
+                <p class="section-subtitle">Everything you need to create stunning videos, right in your browser</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M13 10V3L4 14h7v7l9-11h-7z" fill="currentColor"/>
+                        </svg>
+                    </div>
+                    <h3>Lightning Fast</h3>
+                    <p>Rust-powered performance with WebAssembly delivers native-like speed in your browser</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z" fill="currentColor"/>
+                        </svg>
+                    </div>
+                    <h3>Real-time Preview</h3>
+                    <p>See your edits instantly with 60fps real-time preview, no rendering delays</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M20 6h-2.18c.11-.31.18-.65.18-1a2.996 2.996 0 0 0-5.5-1.65l-.5.67-.5-.68C10.96 2.54 10.05 2 9 2 7.34 2 6 3.34 6 5c0 .35.07.69.18 1H4c-1.11 0-1.99.89-1.99 2L2 19c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V8c0-1.11-.89-2-2-2z" fill="currentColor"/>
+                        </svg>
+                    </div>
+                    <h3>Rich Effects Library</h3>
+                    <p>Professional transitions, filters, and effects optimized for web performance</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-1 9h-4v4h-2v-4H9V9h4V5h2v4h4v2z" fill="currentColor"/>
+                        </svg>
+                    </div>
+                    <h3>Multi-track Timeline</h3>
+                    <p>Advanced timeline with unlimited video and audio tracks for complex projects</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M9 3L5 6.99h3V14h2V6.99h3L9 3zm7 14.01V10h-2v7.01h-3L15 21l4-3.99h-3z" fill="currentColor"/>
+                        </svg>
+                    </div>
+                    <h3>Smart Export</h3>
+                    <p>Optimized export with format detection and compression for any platform</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M12 2l-5.5 9h11z M17.5 11l-5.5 9h11z M6.5 11l-5.5 9h11z" fill="currentColor"/>
+                        </svg>
+                    </div>
+                    <h3>GPU Acceleration</h3>
+                    <p>Hardware-accelerated rendering using WebGL for maximum performance</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Performance Section -->
+    <section id="performance" class="performance">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Unmatched Performance</h2>
+                <p class="section-subtitle">See how Rust Video Editor compares to traditional web-based editors</p>
+            </div>
+            <div class="performance-content">
+                <div class="benchmark-chart">
+                    <h3>Rendering Speed Comparison</h3>
+                    <div class="chart-wrapper">
+                        <div class="chart-bar" data-value="100" data-label="Rust Video Editor">
+                            <div class="bar-fill rust-editor"></div>
+                            <span class="bar-label">100%</span>
+                        </div>
+                        <div class="chart-bar" data-value="45" data-label="Competitor A">
+                            <div class="bar-fill competitor"></div>
+                            <span class="bar-label">45%</span>
+                        </div>
+                        <div class="chart-bar" data-value="32" data-label="Competitor B">
+                            <div class="bar-fill competitor"></div>
+                            <span class="bar-label">32%</span>
+                        </div>
+                        <div class="chart-bar" data-value="28" data-label="Competitor C">
+                            <div class="bar-fill competitor"></div>
+                            <span class="bar-label">28%</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="performance-features">
+                    <div class="perf-item">
+                        <div class="perf-icon">⚡</div>
+                        <div class="perf-content">
+                            <h4>WebAssembly Core</h4>
+                            <p>Near-native performance with Rust compiled to WebAssembly</p>
+                        </div>
+                    </div>
+                    <div class="perf-item">
+                        <div class="perf-icon">🚀</div>
+                        <div class="perf-content">
+                            <h4>Zero Overhead</h4>
+                            <p>No JavaScript runtime overhead for critical video processing</p>
+                        </div>
+                    </div>
+                    <div class="perf-item">
+                        <div class="perf-icon">💾</div>
+                        <div class="perf-content">
+                            <h4>Memory Efficient</h4>
+                            <p>Optimized memory usage with Rust's zero-cost abstractions</p>
+                        </div>
+                    </div>
+                    <div class="perf-item">
+                        <div class="perf-icon">🔥</div>
+                        <div class="perf-content">
+                            <h4>Multi-threaded</h4>
+                            <p>Parallel processing with WebWorkers for maximum CPU utilization</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Demo Section -->
+    <section id="demos" class="demos">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">See It In Action</h2>
+                <p class="section-subtitle">Interactive demos showcasing the power of Rust Video Editor</p>
+            </div>
+            <div class="demo-grid">
+                <div class="demo-card">
+                    <div class="demo-preview" style="background: linear-gradient(135deg, #ff6b6b 0%, #4ecdc4 100%); display: flex; align-items: center; justify-content: center; color: white; font-size: 3rem;">
+                        ▶
+                    </div>
+                    <h3>Basic Editing</h3>
+                    <p>Cut, trim, and arrange clips with intuitive controls</p>
+                    <button class="btn btn-outline" onclick="openDemo('basic')">Try Demo</button>
+                </div>
+                <div class="demo-card">
+                    <div class="demo-preview" style="background: linear-gradient(135deg, #9b59b6 0%, #3498db 100%); display: flex; align-items: center; justify-content: center; color: white; font-size: 3rem;">
+                        ✨
+                    </div>
+                    <h3>Advanced Effects</h3>
+                    <p>Apply professional transitions and visual effects</p>
+                    <button class="btn btn-outline" onclick="openDemo('effects')">Try Demo</button>
+                </div>
+                <div class="demo-card">
+                    <div class="demo-preview" style="background: linear-gradient(135deg, #f39c12 0%, #e74c3c 100%); display: flex; align-items: center; justify-content: center; color: white; font-size: 3rem;">
+                        🎵
+                    </div>
+                    <h3>Audio Editing</h3>
+                    <p>Mix audio tracks with real-time effects processing</p>
+                    <button class="btn btn-outline" onclick="openDemo('audio')">Try Demo</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="testimonials">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Loved by Content Creators</h2>
+                <p class="section-subtitle">See what professionals are saying about Rust Video Editor</p>
+            </div>
+            <div class="testimonials-grid">
+                <div class="testimonial-card">
+                    <div class="testimonial-content">
+                        <p>"The performance is incredible! I can edit 4K videos smoothly without any lag. It's hard to believe this runs in a browser."</p>
+                    </div>
+                    <div class="testimonial-author">
+                        <img src="assets/images/placeholder-avatar.svg" alt="Sarah Chen" style="background: #ff6b6b;">
+                        <div>
+                            <h4>Sarah Chen</h4>
+                            <span>YouTube Creator</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="testimonial-content">
+                        <p>"Finally, a web-based editor that doesn't compromise on features or speed. The real-time preview is a game-changer."</p>
+                    </div>
+                    <div class="testimonial-author">
+                        <img src="assets/images/placeholder-avatar.svg" alt="Mike Rodriguez" style="background: #4ecdc4;">
+                        <div>
+                            <h4>Mike Rodriguez</h4>
+                            <span>Film Editor</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="testimonial-content">
+                        <p>"The fact that I can access my projects from any device without installing software is amazing. Collaboration has never been easier."</p>
+                    </div>
+                    <div class="testimonial-author">
+                        <img src="assets/images/placeholder-avatar.svg" alt="Emma Thompson" style="background: #9b59b6;">
+                        <div>
+                            <h4>Emma Thompson</h4>
+                            <span>Content Agency Owner</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section id="pricing" class="pricing">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Simple, Transparent Pricing</h2>
+                <p class="section-subtitle">Choose the plan that works best for you</p>
+            </div>
+            <div class="pricing-grid">
+                <div class="pricing-card">
+                    <div class="pricing-header">
+                        <h3>Free</h3>
+                        <div class="price">
+                            <span class="currency">$</span>
+                            <span class="amount">0</span>
+                            <span class="period">/month</span>
+                        </div>
+                    </div>
+                    <ul class="pricing-features">
+                        <li>720p export quality</li>
+                        <li>5 projects</li>
+                        <li>Basic effects & transitions</li>
+                        <li>2GB cloud storage</li>
+                        <li>Community support</li>
+                    </ul>
+                    <button class="btn btn-outline btn-block">Get Started</button>
+                </div>
+                <div class="pricing-card featured">
+                    <div class="pricing-badge">Most Popular</div>
+                    <div class="pricing-header">
+                        <h3>Pro</h3>
+                        <div class="price">
+                            <span class="currency">$</span>
+                            <span class="amount">19</span>
+                            <span class="period">/month</span>
+                        </div>
+                    </div>
+                    <ul class="pricing-features">
+                        <li>4K export quality</li>
+                        <li>Unlimited projects</li>
+                        <li>All effects & transitions</li>
+                        <li>100GB cloud storage</li>
+                        <li>Priority support</li>
+                        <li>Advanced color grading</li>
+                        <li>Custom watermarks</li>
+                    </ul>
+                    <button class="btn btn-primary btn-block">Start Free Trial</button>
+                </div>
+                <div class="pricing-card">
+                    <div class="pricing-header">
+                        <h3>Team</h3>
+                        <div class="price">
+                            <span class="currency">$</span>
+                            <span class="amount">49</span>
+                            <span class="period">/month</span>
+                        </div>
+                    </div>
+                    <ul class="pricing-features">
+                        <li>Everything in Pro</li>
+                        <li>5 team members</li>
+                        <li>Collaborative editing</li>
+                        <li>500GB cloud storage</li>
+                        <li>Dedicated support</li>
+                        <li>Custom branding</li>
+                        <li>API access</li>
+                    </ul>
+                    <button class="btn btn-outline btn-block">Contact Sales</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="faq">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Frequently Asked Questions</h2>
+            </div>
+            <div class="faq-grid">
+                <div class="faq-item">
+                    <h3>How does it work in the browser?</h3>
+                    <p>Rust Video Editor uses WebAssembly to run high-performance Rust code directly in your browser, providing native-like performance without downloads.</p>
+                </div>
+                <div class="faq-item">
+                    <h3>What video formats are supported?</h3>
+                    <p>We support all major formats including MP4, WebM, MOV, AVI, and more. The editor automatically handles format conversion as needed.</p>
+                </div>
+                <div class="faq-item">
+                    <h3>Is my data secure?</h3>
+                    <p>Yes! All processing happens locally in your browser. Your videos are only uploaded to our servers if you choose to use cloud storage.</p>
+                </div>
+                <div class="faq-item">
+                    <h3>Can I use it offline?</h3>
+                    <p>Yes, once loaded, the editor works offline. You can edit videos without an internet connection and sync when you're back online.</p>
+                </div>
+                <div class="faq-item">
+                    <h3>What browsers are supported?</h3>
+                    <p>Rust Video Editor works on all modern browsers including Chrome, Firefox, Safari, and Edge. We recommend using the latest version for best performance.</p>
+                </div>
+                <div class="faq-item">
+                    <h3>Can I collaborate with others?</h3>
+                    <p>Team plans include real-time collaboration features, allowing multiple users to work on the same project simultaneously.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta">
+        <div class="container">
+            <div class="cta-content">
+                <h2>Ready to Edit Like a Pro?</h2>
+                <p>Join thousands of creators using Rust Video Editor</p>
+                <div class="cta-actions">
+                    <a href="#" class="btn btn-primary btn-large" onclick="launchEditor()">Start Editing Free</a>
+                    <a href="#docs" class="btn btn-outline btn-large">View Documentation</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Product</h4>
+                    <ul>
+                        <li><a href="#features">Features</a></li>
+                        <li><a href="#pricing">Pricing</a></li>
+                        <li><a href="#demos">Demos</a></li>
+                        <li><a href="#">Roadmap</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="#docs">Documentation</a></li>
+                        <li><a href="#">Tutorials</a></li>
+                        <li><a href="#">API Reference</a></li>
+                        <li><a href="#">Community</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="#">About</a></li>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Connect</h4>
+                    <div class="social-links">
+                        <a href="#" aria-label="Twitter">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"/>
+                            </svg>
+                        </a>
+                        <a href="#" aria-label="GitHub">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M12 2A10 10 0 0 0 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2z"/>
+                            </svg>
+                        </a>
+                        <a href="#" aria-label="Discord">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 00-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 01-.0066.1276 12.2986 12.2986 0 01-1.873.8914.0766.0766 0 00-.0407.1067c.3604.698.7719 1.3628 1.225 1.9932a.076.076 0 00.0842.0286c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-5.177-.8382-9.6739-3.5485-13.6604a.061.061 0 00-.0312-.0286zM8.02 15.3312c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.9555 2.4189-2.1569 2.4189zm7.9748 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9554-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.946 2.4189-2.1568 2.4189Z"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Rust Video Editor. All rights reserved.</p>
+                <div class="footer-links">
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                    <a href="#">Cookie Policy</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script src="js/animations.js"></script>
+</body>
+</html>

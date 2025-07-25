@@ -1,0 +1,253 @@
+{
+  "version": "1.0.0",
+  "shortcuts": {
+    "navigation": [
+      {
+        "id": "nav-timeline",
+        "name": "Focus Timeline",
+        "description": "Move focus to timeline",
+        "keys": ["Alt", "1"],
+        "enabled": true
+      },
+      {
+        "id": "nav-preview",
+        "name": "Focus Preview",
+        "description": "Move focus to preview window",
+        "keys": ["Alt", "2"],
+        "enabled": true
+      },
+      {
+        "id": "nav-properties",
+        "name": "Focus Properties",
+        "description": "Move focus to properties panel",
+        "keys": ["Alt", "3"],
+        "enabled": true
+      },
+      {
+        "id": "nav-media",
+        "name": "Focus Media Library",
+        "description": "Move focus to media library",
+        "keys": ["Alt", "4"],
+        "enabled": true
+      },
+      {
+        "id": "nav-next-panel",
+        "name": "Next Panel",
+        "description": "Move to next panel",
+        "keys": ["Tab"],
+        "enabled": true
+      },
+      {
+        "id": "nav-prev-panel",
+        "name": "Previous Panel",
+        "description": "Move to previous panel",
+        "keys": ["Shift", "Tab"],
+        "enabled": true
+      }
+    ],
+    "playback": [
+      {
+        "id": "play-pause",
+        "name": "Play/Pause",
+        "description": "Toggle playback",
+        "keys": ["Space"],
+        "enabled": true
+      },
+      {
+        "id": "stop",
+        "name": "Stop",
+        "description": "Stop playback",
+        "keys": ["Escape"],
+        "enabled": true
+      },
+      {
+        "id": "next-frame",
+        "name": "Next Frame",
+        "description": "Move to next frame",
+        "keys": ["ArrowRight"],
+        "enabled": true
+      },
+      {
+        "id": "prev-frame",
+        "name": "Previous Frame",
+        "description": "Move to previous frame",
+        "keys": ["ArrowLeft"],
+        "enabled": true
+      },
+      {
+        "id": "jump-start",
+        "name": "Jump to Start",
+        "description": "Jump to beginning",
+        "keys": ["Home"],
+        "enabled": true
+      },
+      {
+        "id": "jump-end",
+        "name": "Jump to End",
+        "description": "Jump to end",
+        "keys": ["End"],
+        "enabled": true
+      },
+      {
+        "id": "loop-toggle",
+        "name": "Toggle Loop",
+        "description": "Toggle loop playback",
+        "keys": ["L"],
+        "enabled": true
+      }
+    ],
+    "editing": [
+      {
+        "id": "cut",
+        "name": "Cut",
+        "description": "Cut selected clip",
+        "keys": ["Ctrl", "X"],
+        "enabled": true
+      },
+      {
+        "id": "copy",
+        "name": "Copy",
+        "description": "Copy selected clip",
+        "keys": ["Ctrl", "C"],
+        "enabled": true
+      },
+      {
+        "id": "paste",
+        "name": "Paste",
+        "description": "Paste clip",
+        "keys": ["Ctrl", "V"],
+        "enabled": true
+      },
+      {
+        "id": "delete",
+        "name": "Delete",
+        "description": "Delete selected clip",
+        "keys": ["Delete"],
+        "enabled": true
+      },
+      {
+        "id": "undo",
+        "name": "Undo",
+        "description": "Undo last action",
+        "keys": ["Ctrl", "Z"],
+        "enabled": true
+      },
+      {
+        "id": "redo",
+        "name": "Redo",
+        "description": "Redo last undone action",
+        "keys": ["Ctrl", "Shift", "Z"],
+        "enabled": true
+      },
+      {
+        "id": "select-all",
+        "name": "Select All",
+        "description": "Select all clips",
+        "keys": ["Ctrl", "A"],
+        "enabled": true
+      },
+      {
+        "id": "deselect-all",
+        "name": "Deselect All",
+        "description": "Deselect all clips",
+        "keys": ["Ctrl", "D"],
+        "enabled": true
+      },
+      {
+        "id": "split-clip",
+        "name": "Split Clip",
+        "description": "Split clip at playhead",
+        "keys": ["S"],
+        "enabled": true
+      },
+      {
+        "id": "trim-start",
+        "name": "Trim Start",
+        "description": "Trim clip start to playhead",
+        "keys": ["Q"],
+        "enabled": true
+      },
+      {
+        "id": "trim-end",
+        "name": "Trim End",
+        "description": "Trim clip end to playhead",
+        "keys": ["W"],
+        "enabled": true
+      }
+    ],
+    "view": [
+      {
+        "id": "zoom-in",
+        "name": "Zoom In",
+        "description": "Zoom in timeline",
+        "keys": ["Ctrl", "="],
+        "enabled": true
+      },
+      {
+        "id": "zoom-out",
+        "name": "Zoom Out",
+        "description": "Zoom out timeline",
+        "keys": ["Ctrl", "-"],
+        "enabled": true
+      },
+      {
+        "id": "fit-to-window",
+        "name": "Fit to Window",
+        "description": "Fit timeline to window",
+        "keys": ["Ctrl", "0"],
+        "enabled": true
+      },
+      {
+        "id": "fullscreen",
+        "name": "Fullscreen",
+        "description": "Toggle fullscreen preview",
+        "keys": ["F"],
+        "enabled": true
+      }
+    ],
+    "accessibility": [
+      {
+        "id": "toggle-high-contrast",
+        "name": "Toggle High Contrast",
+        "description": "Toggle high contrast mode",
+        "keys": ["Alt", "H"],
+        "enabled": true
+      },
+      {
+        "id": "increase-font",
+        "name": "Increase Font Size",
+        "description": "Increase UI font size",
+        "keys": ["Ctrl", "Shift", "="],
+        "enabled": true
+      },
+      {
+        "id": "decrease-font",
+        "name": "Decrease Font Size",
+        "description": "Decrease UI font size",
+        "keys": ["Ctrl", "Shift", "-"],
+        "enabled": true
+      },
+      {
+        "id": "show-shortcuts",
+        "name": "Show Keyboard Shortcuts",
+        "description": "Display keyboard shortcuts dialog",
+        "keys": ["?"],
+        "enabled": true
+      },
+      {
+        "id": "toggle-screen-reader",
+        "name": "Toggle Screen Reader Mode",
+        "description": "Toggle screen reader optimizations",
+        "keys": ["Alt", "S"],
+        "enabled": true
+      },
+      {
+        "id": "announce-status",
+        "name": "Announce Status",
+        "description": "Announce current playback status",
+        "keys": ["Alt", "A"],
+        "enabled": true
+      }
+    ]
+  }
+}

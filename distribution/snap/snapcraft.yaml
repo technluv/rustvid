@@ -1,0 +1,111 @@
+name: rust-video-editor
+base: core22
+version: '1.0.0'
+summary: High-performance video editor built with Rust
+description: |
+  Rust Video Editor is a modern, high-performance video editing application
+  featuring real-time effects, GPU acceleration, and a professional editing workflow.
+  
+  Key Features:
+  - GPU-accelerated video processing
+  - Real-time effects and transitions
+  - Multi-track timeline
+  - Professional color grading tools
+  - Support for various video formats
+  - Plugin system for custom effects
+
+grade: stable
+confinement: strict
+
+architectures:
+  - build-on: amd64
+  - build-on: arm64
+
+apps:
+  rust-video-editor:
+    command: bin/rust-video-editor
+    desktop: share/applications/rust-video-editor.desktop
+    common-id: io.github.rust_video_editor
+    environment:
+      LD_LIBRARY_PATH: $SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET:$SNAP/usr/lib:$SNAP/lib/$SNAPCRAFT_ARCH_TRIPLET
+      GST_PLUGIN_PATH: $SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/gstreamer-1.0
+      GI_TYPELIB_PATH: $SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/girepository-1.0
+    plugs:
+      - audio-playback
+      - audio-record
+      - desktop
+      - desktop-legacy
+      - gsettings
+      - home
+      - network
+      - opengl
+      - removable-media
+      - unity7
+      - wayland
+      - x11
+      - camera
+      - hardware-observe
+      - process-control
+
+parts:
+  rust-video-editor:
+    plugin: rust
+    source: https://github.com/your-org/rust-video-editor.git
+    source-tag: v1.0.0
+    rust-features: ["default"]
+    build-packages:
+      - pkg-config
+      - cmake
+      - libgtk-3-dev
+      - libgstreamer1.0-dev
+      - libgstreamer-plugins-base1.0-dev
+      - libopencv-dev
+      - libvulkan-dev
+      - libavcodec-dev
+      - libavformat-dev
+      - libswscale-dev
+      - libavutil-dev
+      - libavfilter-dev
+      - libx264-dev
+      - libx265-dev
+      - libvpx-dev
+      - libopus-dev
+      - libmp3lame-dev
+    stage-packages:
+      - libgtk-3-0
+      - libgstreamer1.0-0
+      - libgstreamer-plugins-base1.0-0
+      - gstreamer1.0-plugins-base
+      - gstreamer1.0-plugins-good
+      - gstreamer1.0-plugins-bad
+      - gstreamer1.0-plugins-ugly
+      - gstreamer1.0-libav
+      - gstreamer1.0-tools
+      - libopencv-core4.5d
+      - libopencv-imgproc4.5d
+      - libopencv-video4.5d
+      - libvulkan1
+      - libavcodec58
+      - libavformat58
+      - libswscale5
+      - libavutil56
+      - libavfilter7
+      - libx264-163
+      - libx265-199
+      - libvpx7
+      - libopus0
+      - libmp3lame0
+      - mesa-vulkan-drivers
+    override-build: |
+      craftctl default
+      # Copy desktop file and icons
+      mkdir -p $SNAPCRAFT_PART_INSTALL/share/applications
+      cp assets/rust-video-editor.desktop $SNAPCRAFT_PART_INSTALL/share/applications/
+      for size in 16 32 48 64 128 256; do
+        mkdir -p $SNAPCRAFT_PART_INSTALL/share/icons/hicolor/${size}x${size}/apps
+        cp assets/icons/icon-${size}.png $SNAPCRAFT_PART_INSTALL/share/icons/hicolor/${size}x${size}/apps/rust-video-editor.png
+      done
+
+layout:
+  /usr/share/vulkan:
+    bind: $SNAP/usr/share/vulkan

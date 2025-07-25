@@ -27,51 +27,119 @@
   border: 0;
 }
 
+.sr-only:focus,
+.not-sr-only:focus {
+  position: absolute;
+  width: auto;
+  height: auto;
+  padding: 0.5rem 1rem;
+  margin: 0;
+  overflow: visible;
+  clip: auto;
+  white-space: normal;
+}
+
+/* CSS Variables for theming */
+:root {
+  --base-font-size: 100%;
+}
+
+html {
+  font-size: var(--base-font-size);
+}
+
 /* High contrast mode support */
+.high-contrast,
 .high-contrast-theme {
   --bg-primary: #000000;
   --bg-secondary: #1a1a1a;
   --bg-tertiary: #333333;
   --text-primary: #ffffff;
   --text-secondary: #e0e0e0;
-  --border-color: #666666;
-  --accent-color: #0080ff;
+  --border-color: #ffffff;
+  --accent-color: #00ffff;
   --success-color: #00ff00;
   --warning-color: #ffff00;
   --error-color: #ff4444;
+  --focus-color: #ffff00;
 }
 
-.high-contrast-theme .bg-gray-900 {
+/* Reduced motion mode */
+.reduced-motion *,
+.reduced-motion *::before,
+.reduced-motion *::after {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
+  scroll-behavior: auto !important;
+}
+
+/* Screen reader mode enhancements */
+.screen-reader-mode [aria-hidden="true"] {
+  display: none !important;
+}
+
+.screen-reader-mode .decorative-icon {
+  display: none !important;
+}
+
+.high-contrast .bg-gray-900 {
   background-color: var(--bg-primary) !important;
 }
 
-.high-contrast-theme .bg-gray-800 {
+.high-contrast .bg-gray-800 {
   background-color: var(--bg-secondary) !important;
 }
 
-.high-contrast-theme .bg-gray-850 {
+.high-contrast .bg-gray-850 {
   background-color: var(--bg-tertiary) !important;
 }
 
-.high-contrast-theme .text-white {
+.high-contrast .text-white {
   color: var(--text-primary) !important;
 }
 
-.high-contrast-theme .text-gray-300 {
+.high-contrast .text-gray-300,
+.high-contrast .text-gray-400,
+.high-contrast .text-gray-500,
+.high-contrast .text-gray-600 {
   color: var(--text-secondary) !important;
 }
 
-.high-contrast-theme .border-gray-700 {
+.high-contrast .border-gray-700,
+.high-contrast .border-gray-600,
+.high-contrast .border-gray-500 {
   border-color: var(--border-color) !important;
+  border-width: 2px !important;
 }
 
-.high-contrast-theme .bg-blue-600 {
+.high-contrast .bg-blue-600,
+.high-contrast .bg-blue-500 {
   background-color: var(--accent-color) !important;
+  color: #000000 !important;
 }
 
-.high-contrast-theme .bg-green-600 {
+.high-contrast .bg-green-600,
+.high-contrast .bg-green-500 {
   background-color: var(--success-color) !important;
   color: #000000 !important;
+}
+
+.high-contrast .bg-red-600,
+.high-contrast .bg-red-500 {
+  background-color: var(--error-color) !important;
+}
+
+.high-contrast .bg-yellow-600,
+.high-contrast .bg-yellow-500 {
+  background-color: var(--warning-color) !important;
+  color: #000000 !important;
+}
+
+/* High contrast focus states */
+.high-contrast *:focus {
+  outline: 3px solid var(--focus-color) !important;
+  outline-offset: 2px !important;
 }
 
 /* Custom scrollbar styles */
@@ -122,9 +190,84 @@
 }
 
 /* Focus visible improvements */
+:focus {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+}
+
 :focus-visible {
   outline: 2px solid #3b82f6;
   outline-offset: 2px;
+}
+
+/* Skip navigation link */
+.skip-link {
+  position: absolute;
+  left: -10000px;
+  top: auto;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+.skip-link:focus {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: auto;
+  height: auto;
+  overflow: visible;
+  z-index: 9999;
+  padding: 0.5rem 1rem;
+  background-color: #2563eb;
+  color: white;
+  text-decoration: none;
+  border-radius: 0.25rem;
+}
+
+/* Keyboard navigation indicators */
+[data-keyboard-nav="true"] *:focus {
+  outline: 3px solid #3b82f6;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.3);
+}
+
+/* Accessible button states */
+button:disabled,
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+button[aria-pressed="true"] {
+  background-color: #2563eb;
+  color: white;
+}
+
+/* Accessible form controls */
+input:invalid,
+textarea:invalid,
+select:invalid {
+  border-color: #ef4444;
+}
+
+input[aria-invalid="true"],
+textarea[aria-invalid="true"],
+select[aria-invalid="true"] {
+  border-color: #ef4444;
+  background-color: rgba(239, 68, 68, 0.1);
+}
+
+/* Accessible error messages */
+.error-message {
+  color: #ef4444;
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+}
+
+.high-contrast .error-message {
+  color: var(--error-color) !important;
+  font-weight: bold;
 }
 
 /* Button animations */
@@ -187,10 +330,117 @@
     min-height: 44px; /* Minimum touch target size */
   }
   
-  button {
+  button,
+  a,
+  [role="button"],
+  [tabindex]:not([tabindex="-1"]) {
     min-height: 44px;
     min-width: 44px;
   }
+  
+  /* Increase spacing for touch targets */
+  .timeline-controls > * {
+    margin: 0.25rem;
+  }
+}
+
+/* Accessibility announcements */
+[role="status"],
+[role="alert"],
+[aria-live] {
+  position: relative;
+}
+
+/* Loading states with announcements */
+[aria-busy="true"]::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 1.5rem;
+  height: 1.5rem;
+  border: 2px solid #3b82f6;
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+/* Tooltips for keyboard shortcuts */
+[data-tooltip] {
+  position: relative;
+}
+
+[data-tooltip]:hover::after,
+[data-tooltip]:focus::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(0, 0, 0, 0.9);
+  color: white;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  font-size: 0.75rem;
+  white-space: nowrap;
+  z-index: 1000;
+  margin-bottom: 0.25rem;
+}
+
+/* Accessible dialogs and modals */
+[role="dialog"] {
+  position: relative;
+  z-index: 1000;
+}
+
+[role="dialog"]::backdrop,
+.modal-backdrop {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+/* Tab panel focus management */
+[role="tabpanel"]:focus {
+  outline: none;
+}
+
+[role="tab"][aria-selected="true"] {
+  border-bottom: 2px solid #3b82f6;
+  color: #3b82f6;
+}
+
+/* Accessible switch/toggle buttons */
+[role="switch"] {
+  cursor: pointer;
+  user-select: none;
+}
+
+[role="switch"][aria-checked="true"] {
+  background-color: #3b82f6;
+}
+
+[role="switch"][aria-checked="false"] {
+  background-color: #6b7280;
+}
+
+/* Progress indicators */
+[role="progressbar"] {
+  position: relative;
+  overflow: hidden;
+}
+
+[role="progressbar"]::after {
+  content: attr(aria-valuenow) "%";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 0.75rem;
+  font-weight: bold;
 }
 
 /* Prevent text selection during drag */

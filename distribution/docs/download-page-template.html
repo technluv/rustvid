@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Download Rust Video Editor</title>
+    <style>
+        :root {
+            --primary-color: #CE422B;
+            --secondary-color: #2A2A2A;
+            --text-color: #333;
+            --bg-color: #F5F5F5;
+            --card-bg: #FFFFFF;
+            --border-color: #E0E0E0;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        header {
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+        }
+        
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .download-section {
+            padding: 3rem 0;
+        }
+        
+        .platform-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .platform-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 2rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            transition: box-shadow 0.3s ease;
+        }
+        
+        .platform-card:hover {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        
+        .platform-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .platform-icon {
+            width: 48px;
+            height: 48px;
+            margin-right: 1rem;
+        }
+        
+        .platform-name {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+        
+        .download-button {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 12px 24px;
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: 500;
+            transition: background-color 0.3s ease;
+            margin-bottom: 1rem;
+        }
+        
+        .download-button:hover {
+            background-color: #B73A25;
+        }
+        
+        .version-info {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 1rem;
+        }
+        
+        .install-methods {
+            margin-top: 1.5rem;
+        }
+        
+        .install-methods h4 {
+            margin-bottom: 0.5rem;
+        }
+        
+        .install-command {
+            background-color: #F0F0F0;
+            padding: 8px 12px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            margin: 0.5rem 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .copy-button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 4px 8px;
+            color: #666;
+            font-size: 0.8rem;
+        }
+        
+        .copy-button:hover {
+            color: var(--primary-color);
+        }
+        
+        .requirements {
+            background-color: #FFF9E6;
+            border: 1px solid #FFE4B3;
+            border-radius: 4px;
+            padding: 1rem;
+            margin: 2rem 0;
+        }
+        
+        .requirements h3 {
+            color: #CC8800;
+            margin-bottom: 0.5rem;
+        }
+        
+        .feature-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+        
+        .feature-item {
+            display: flex;
+            align-items: center;
+        }
+        
+        .feature-icon {
+            color: var(--primary-color);
+            margin-right: 0.5rem;
+        }
+        
+        footer {
+            background-color: var(--secondary-color);
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 4rem;
+        }
+        
+        footer a {
+            color: white;
+            text-decoration: none;
+            margin: 0 1rem;
+        }
+        
+        footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Rust Video Editor</h1>
+            <p>High-performance video editing with GPU acceleration</p>
+        </div>
+    </header>
+    
+    <section class="download-section">
+        <div class="container">
+            <h2>Download Rust Video Editor v1.0.0</h2>
+            
+            <div class="platform-grid">
+                <!-- Windows -->
+                <div class="platform-card">
+                    <div class="platform-header">
+                        <svg class="platform-icon" viewBox="0 0 24 24">
+                            <path fill="#0078D4" d="M0 0h11.377v11.372H0zm12.623 0H24v11.372H12.623zM0 12.623h11.377V24H0zm12.623 0H24V24H12.623z"/>
+                        </svg>
+                        <h3 class="platform-name">Windows</h3>
+                    </div>
+                    
+                    <div class="version-info">
+                        Version: 1.0.0 | Size: 142 MB | Windows 10+
+                    </div>
+                    
+                    <a href="#" class="download-button">Download Installer (.exe)</a>
+                    <a href="#" class="download-button">Download Portable (.zip)</a>
+                    
+                    <div class="install-methods">
+                        <h4>Package Managers:</h4>
+                        <div class="install-command">
+                            <code>winget install RustVideoEditor.RustVideoEditor</code>
+                            <button class="copy-button" onclick="copyToClipboard(this)">Copy</button>
+                        </div>
+                        <div class="install-command">
+                            <code>choco install rust-video-editor</code>
+                            <button class="copy-button" onclick="copyToClipboard(this)">Copy</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- macOS -->
+                <div class="platform-card">
+                    <div class="platform-header">
+                        <svg class="platform-icon" viewBox="0 0 24 24">
+                            <path fill="#333" d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
+                        </svg>
+                        <h3 class="platform-name">macOS</h3>
+                    </div>
+                    
+                    <div class="version-info">
+                        Version: 1.0.0 | Size: 138 MB | macOS 10.15+
+                    </div>
+                    
+                    <a href="#" class="download-button">Download (.dmg)</a>
+                    <a href="#" class="download-button">Download (.pkg)</a>
+                    
+                    <div class="install-methods">
+                        <h4>Homebrew:</h4>
+                        <div class="install-command">
+                            <code>brew install rust-video-editor</code>
+                            <button class="copy-button" onclick="copyToClipboard(this)">Copy</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Linux -->
+                <div class="platform-card">
+                    <div class="platform-header">
+                        <svg class="platform-icon" viewBox="0 0 24 24">
+                            <path fill="#FCC624" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2M8 19.5c-.61 0-1.11-.5-1.11-1.11 0-.61.5-1.11 1.11-1.11.61 0 1.11.5 1.11 1.11 0 .61-.5 1.11-1.11 1.11m8 0c-.61 0-1.11-.5-1.11-1.11 0-.61.5-1.11 1.11-1.11.61 0 1.11.5 1.11 1.11 0 .61-.5 1.11-1.11 1.11M12 17c-2.21 0-4-1.79-4-4h8c0 2.21-1.79 4-4 4m3.5-11.5C15.5 4.67 14.83 4 14 4c-.44 0-.84.19-1.12.5-.14-.34-.43-.61-.8-.78C11.72 3.56 11.37 3.5 11 3.5s-.72.06-1.08.22c-.37.17-.66.44-.8.78C8.84 4.19 8.44 4 8 4c-.83 0-1.5.67-1.5 1.5S7.17 7 8 7c.44 0 .84-.19 1.12-.5.14.34.43.61.8.78.36.16.71.22 1.08.22s.72-.06 1.08-.22c.37-.17.66-.44.8-.78.28.31.68.5 1.12.5.83 0 1.5-.67 1.5-1.5z"/>
+                        </svg>
+                        <h3 class="platform-name">Linux</h3>
+                    </div>
+                    
+                    <div class="version-info">
+                        Version: 1.0.0 | Ubuntu 20.04+, Fedora 34+, Arch
+                    </div>
+                    
+                    <a href="#" class="download-button">Download AppImage</a>
+                    <a href="#" class="download-button">Download .deb</a>
+                    <a href="#" class="download-button">Download .rpm</a>
+                    
+                    <div class="install-methods">
+                        <h4>Package Managers:</h4>
+                        <div class="install-command">
+                            <code>sudo snap install rust-video-editor</code>
+                            <button class="copy-button" onclick="copyToClipboard(this)">Copy</button>
+                        </div>
+                        <div class="install-command">
+                            <code>flatpak install io.github.rust_video_editor</code>
+                            <button class="copy-button" onclick="copyToClipboard(this)">Copy</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="requirements">
+                <h3>System Requirements</h3>
+                <p><strong>Minimum:</strong> 8GB RAM, Vulkan 1.2 GPU with 2GB VRAM, 4GB disk space</p>
+                <p><strong>Recommended:</strong> 16GB+ RAM, NVIDIA RTX 3060 / AMD RX 6600 or better, 10GB disk space on SSD</p>
+            </div>
+            
+            <h3>Key Features</h3>
+            <div class="feature-list">
+                <div class="feature-item">
+                    <span class="feature-icon">⚡</span>
+                    <span>GPU-accelerated rendering</span>
+                </div>
+                <div class="feature-item">
+                    <span class="feature-icon">🎬</span>
+                    <span>Multi-track timeline</span>
+                </div>
+                <div class="feature-item">
+                    <span class="feature-icon">🎨</span>
+                    <span>Real-time effects</span>
+                </div>
+                <div class="feature-item">
+                    <span class="feature-icon">🎯</span>
+                    <span>Frame-accurate editing</span>
+                </div>
+                <div class="feature-item">
+                    <span class="feature-icon">🎪</span>
+                    <span>Professional color grading</span>
+                </div>
+                <div class="feature-item">
+                    <span class="feature-icon">🔌</span>
+                    <span>Plugin system</span>
+                </div>
+                <div class="feature-item">
+                    <span class="feature-icon">📹</span>
+                    <span>4K/8K support</span>
+                </div>
+                <div class="feature-item">
+                    <span class="feature-icon">🎵</span>
+                    <span>Advanced audio mixing</span>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <footer>
+        <div class="container">
+            <a href="#">Documentation</a>
+            <a href="#">GitHub</a>
+            <a href="#">Support</a>
+            <a href="#">License</a>
+        </div>
+    </footer>
+    
+    <script>
+        function copyToClipboard(button) {
+            const command = button.previousElementSibling.textContent;
+            navigator.clipboard.writeText(command).then(() => {
+                const originalText = button.textContent;
+                button.textContent = 'Copied!';
+                setTimeout(() => {
+                    button.textContent = originalText;
+                }, 2000);
+            });
+        }
+    </script>
+</body>
+</html>

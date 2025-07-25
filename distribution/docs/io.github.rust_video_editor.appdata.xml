@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>io.github.rust_video_editor</id>
+  
+  <name>Rust Video Editor</name>
+  <summary>High-performance video editor with GPU acceleration</summary>
+  
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>MIT</project_license>
+  
+  <description>
+    <p>
+      Rust Video Editor is a modern, high-performance video editing application built with Rust,
+      featuring real-time effects, GPU acceleration, and a professional editing workflow.
+    </p>
+    <p>Key features include:</p>
+    <ul>
+      <li>GPU-accelerated video processing with Vulkan support</li>
+      <li>Real-time effects and transitions with instant preview</li>
+      <li>Multi-track timeline with unlimited video and audio tracks</li>
+      <li>Professional color grading and correction tools</li>
+      <li>Support for all major video formats and codecs</li>
+      <li>Plugin system for custom effects and extensions</li>
+      <li>Hardware encoding/decoding with NVIDIA, AMD, and Intel</li>
+      <li>Frame-accurate editing with sub-frame precision</li>
+      <li>Advanced audio mixing with real-time effects</li>
+      <li>4K, 8K, and high frame rate video support</li>
+    </ul>
+    <p>
+      Whether you're a professional video editor, content creator, or hobbyist,
+      Rust Video Editor provides the tools you need to create stunning videos
+      with unparalleled performance and efficiency.
+    </p>
+  </description>
+  
+  <launchable type="desktop-id">io.github.rust_video_editor.desktop</launchable>
+  
+  <screenshots>
+    <screenshot type="default">
+      <caption>Main editing interface with timeline</caption>
+      <image>https://raw.githubusercontent.com/your-org/rust-video-editor/main/screenshots/main-interface.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>Color grading tools</caption>
+      <image>https://raw.githubusercontent.com/your-org/rust-video-editor/main/screenshots/color-grading.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>Effects library</caption>
+      <image>https://raw.githubusercontent.com/your-org/rust-video-editor/main/screenshots/effects-library.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>Audio mixing console</caption>
+      <image>https://raw.githubusercontent.com/your-org/rust-video-editor/main/screenshots/audio-mixing.png</image>
+    </screenshot>
+  </screenshots>
+  
+  <url type="homepage">https://github.com/your-org/rust-video-editor</url>
+  <url type="bugtracker">https://github.com/your-org/rust-video-editor/issues</url>
+  <url type="help">https://github.com/your-org/rust-video-editor/wiki</url>
+  <url type="donation">https://github.com/sponsors/your-org</url>
+  <url type="translate">https://github.com/your-org/rust-video-editor/tree/main/translations</url>
+  
+  <developer_name>Rust Video Editor Contributors</developer_name>
+  
+  <provides>
+    <binary>rust-video-editor</binary>
+    <mediatype>video/mp4</mediatype>
+    <mediatype>video/mpeg</mediatype>
+    <mediatype>video/quicktime</mediatype>
+    <mediatype>video/x-msvideo</mediatype>
+    <mediatype>video/x-matroska</mediatype>
+    <mediatype>video/webm</mediatype>
+    <mediatype>video/x-flv</mediatype>
+    <mediatype>video/ogg</mediatype>
+  </provides>
+  
+  <releases>
+    <release version="1.0.0" date="2024-01-15">
+      <description>
+        <p>Initial release of Rust Video Editor with the following features:</p>
+        <ul>
+          <li>GPU-accelerated video processing with Vulkan</li>
+          <li>Multi-track timeline editor</li>
+          <li>Real-time effects and transitions</li>
+          <li>Professional color grading tools</li>
+          <li>Plugin system for extensibility</li>
+          <li>Hardware encoding support</li>
+          <li>4K and 8K video support</li>
+        </ul>
+      </description>
+    </release>
+  </releases>
+  
+  <content_rating type="oars-1.1" />
+  
+  <requires>
+    <display_length compare="ge">1280</display_length>
+    <display_length compare="ge">720</display_length>
+  </requires>
+  
+  <recommends>
+    <control>keyboard</control>
+    <control>pointing</control>
+  </recommends>
+  
+  <categories>
+    <category>AudioVideo</category>
+    <category>Video</category>
+    <category>AudioVideoEditing</category>
+    <category>GTK</category>
+  </categories>
+  
+  <keywords>
+    <keyword>video</keyword>
+    <keyword>editor</keyword>
+    <keyword>editing</keyword>
+    <keyword>effects</keyword>
+    <keyword>GPU</keyword>
+    <keyword>Vulkan</keyword>
+    <keyword>rust</keyword>
+    <keyword>multimedia</keyword>
+    <keyword>production</keyword>
+    <keyword>post-production</keyword>
+  </keywords>
+  
+  <kudos>
+    <kudo>ModernToolkit</kudo>
+    <kudo>HiDpiIcon</kudo>
+  </kudos>
+  
+</component>

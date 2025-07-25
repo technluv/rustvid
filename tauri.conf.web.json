@@ -1,0 +1,139 @@
+{
+  "$schema": "../node_modules/@tauri-apps/cli/schema.json",
+  "build": {
+    "distDir": "../web/dist",
+    "devPath": "http://localhost:3000",
+    "beforeBuildCommand": "npm run build:web",
+    "beforeDevCommand": "npm run dev:web",
+    "withGlobalTauri": true
+  },
+  "package": {
+    "productName": "Rust Video Editor Web",
+    "version": "0.1.0"
+  },
+  "tauri": {
+    "bundle": {
+      "active": true,
+      "targets": ["app", "dmg", "msi", "appimage", "deb"],
+      "identifier": "com.rustvideoeditor.web",
+      "icon": [
+        "icons/32x32.png",
+        "icons/128x128.png",
+        "icons/128x128@2x.png",
+        "icons/icon.icns",
+        "icons/icon.ico"
+      ],
+      "resources": [],
+      "externalBin": [],
+      "copyright": "",
+      "category": "DeveloperTool",
+      "shortDescription": "",
+      "longDescription": "",
+      "deb": {
+        "depends": []
+      },
+      "macOS": {
+        "frameworks": [],
+        "exceptionDomain": "",
+        "signingIdentity": null,
+        "providerShortName": null,
+        "entitlements": null
+      },
+      "windows": {
+        "certificateThumbprint": null,
+        "digestAlgorithm": "sha256",
+        "timestampUrl": ""
+      }
+    },
+    "allowlist": {
+      "all": false,
+      "shell": {
+        "all": false,
+        "open": true
+      },
+      "window": {
+        "all": false,
+        "create": false,
+        "center": false,
+        "requestUserAttention": false,
+        "setResizable": false,
+        "setTitle": false,
+        "maximize": false,
+        "unmaximize": false,
+        "minimize": false,
+        "unminimize": false,
+        "show": false,
+        "hide": false,
+        "close": false,
+        "setDecorations": false,
+        "setAlwaysOnTop": false,
+        "setSize": false,
+        "setMinSize": false,
+        "setMaxSize": false,
+        "setPosition": false,
+        "setFullscreen": false,
+        "setFocus": false,
+        "setIcon": false,
+        "setSkipTaskbar": false,
+        "setCursorGrab": false,
+        "setCursorVisible": false,
+        "setCursorIcon": false,
+        "setCursorPosition": false,
+        "startDragging": false,
+        "print": false
+      },
+      "dialog": {
+        "all": false,
+        "open": true,
+        "save": true,
+        "message": true,
+        "ask": true,
+        "confirm": true
+      },
+      "fs": {
+        "all": false,
+        "readFile": true,
+        "writeFile": true,
+        "readDir": true,
+        "copyFile": false,
+        "createDir": false,
+        "removeDir": false,
+        "removeFile": false,
+        "renameFile": false,
+        "exists": false
+      },
+      "path": {
+        "all": true
+      },
+      "protocol": {
+        "all": false,
+        "asset": true
+      }
+    },
+    "windows": [
+      {
+        "title": "Rust Video Editor",
+        "width": 1200,
+        "height": 800,
+        "resizable": true,
+        "fullscreen": false,
+        "decorations": true,
+        "transparent": false,
+        "skipTaskbar": false,
+        "fileDropEnabled": true
+      }
+    ],
+    "security": {
+      "csp": {
+        "default-src": "'self'",
+        "script-src": "'self' 'unsafe-inline' 'unsafe-eval' blob: data:",
+        "style-src": "'self' 'unsafe-inline'",
+        "img-src": "'self' data: blob: https:",
+        "media-src": "'self' blob: data: https:",
+        "connect-src": "'self' https: wss: ws:",
+        "font-src": "'self' data:",
+        "worker-src": "'self' blob:"
+      }
+    }
+  }
+}
