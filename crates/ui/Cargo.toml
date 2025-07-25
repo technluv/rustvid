@@ -23,7 +23,7 @@ serde_json = { workspace = true }
 thiserror = { workspace = true }
 anyhow = { workspace = true }
 tracing = { workspace = true }
-tauri = { workspace = true, features = [ "macos-private-api"] }
+tauri = { workspace = true, features = [] }
 
 [dev-dependencies]
 tracing-subscriber = { workspace = true }
