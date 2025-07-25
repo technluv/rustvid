@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rust Video Editor - Editor Interface</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/editor.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="editor-page">
+    <!-- Error Container -->
+    <div id="error-container" class="error-container" style="display: none;">
+        <div class="error-message">
+            <span class="error-icon">⚠️</span>
+            <span id="error-text"></span>
+            <button class="error-close" onclick="hideError()">×</button>
+        </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div id="loading-overlay" class="loading-overlay" style="display: none;">
+        <div class="spinner"></div>
+        <p>Processing...</p>
+    </div>
+
+    <!-- Main Editor Container -->
+    <div class="editor-container">
+        <!-- Header Toolbar -->
+        <header class="editor-header">
+            <div class="header-left">
+                <a href="index.html" class="back-link" aria-label="Back to homepage">
+                    <svg width="20" height="20" viewBox="0 0 20 20">
+                        <path d="M12 16l-6-6 6-6" stroke="currentColor" stroke-width="2" fill="none"/>
+                    </svg>
+                    Back
+                </a>
+                <h1 class="editor-title">Video Editor</h1>
+            </div>
+            <div class="header-center">
+                <button class="btn-icon" onclick="undo()" aria-label="Undo" title="Undo (Ctrl+Z)">
+                    <svg width="20" height="20"><path d="M5 10h8a4 4 0 110 8" stroke="currentColor" stroke-width="2" fill="none"/></svg>
+                </button>
+                <button class="btn-icon" onclick="redo()" aria-label="Redo" title="Redo (Ctrl+Y)">
+                    <svg width="20" height="20"><path d="M15 10h-8a4 4 0 100 8" stroke="currentColor" stroke-width="2" fill="none"/></svg>
+                </button>
+                <div class="separator"></div>
+                <button class="btn-icon" onclick="zoomOut()" aria-label="Zoom out">-</button>
+                <span class="zoom-level">100%</span>
+                <button class="btn-icon" onclick="zoomIn()" aria-label="Zoom in">+</button>
+            </div>
+            <div class="header-right">
+                <button class="btn btn-secondary" onclick="saveProject()">Save</button>
+                <button class="btn btn-primary" onclick="exportVideo()">Export</button>
+            </div>
+        </header>
+
+        <!-- Main Content Area -->
+        <div class="editor-main">
+            <!-- Sidebar Tools -->
+            <aside class="sidebar">
+                <div class="tool-section">
+                    <h3>Import Media</h3>
+                    <div class="upload-area" id="upload-area">
+                        <input type="file" id="video-upload" accept="video/*,image/*,audio/*" multiple style="display: none;" onchange="handleFileUpload(event)">
+                        <label for="video-upload" class="upload-label">
+                            <svg width="40" height="40" viewBox="0 0 40 40">
+                                <path d="M20 10v20m-10-10h20" stroke="currentColor" stroke-width="2"/>
+                            </svg>
+                            <p>Drop files here or click to upload</p>
+                            <small>Supports MP4, MOV, AVI, JPG, PNG, MP3</small>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="tool-section">
+                    <h3>Effects</h3>
+                    <div class="effects-grid">
+                        <button class="effect-btn" onclick="applyEffect('blur')" aria-label="Apply blur effect">
+                            <span class="effect-icon">🌫️</span>
+                            <span>Blur</span>
+                        </button>
+                        <button class="effect-btn" onclick="applyEffect('brightness')" aria-label="Adjust brightness">
+                            <span class="effect-icon">☀️</span>
+                            <span>Brightness</span>
+                        </button>
+                        <button class="effect-btn" onclick="applyEffect('contrast')" aria-label="Adjust contrast">
+                            <span class="effect-icon">◐</span>
+                            <span>Contrast</span>
+                        </button>
+                        <button class="effect-btn" onclick="applyEffect('grayscale')" aria-label="Convert to grayscale">
+                            <span class="effect-icon">⚫</span>
+                            <span>Grayscale</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="tool-section">
+                    <h3>Transitions</h3>
+                    <div class="transitions-list">
+                        <button class="transition-btn" onclick="addTransition('fade')">Fade</button>
+                        <button class="transition-btn" onclick="addTransition('dissolve')">Dissolve</button>
+                        <button class="transition-btn" onclick="addTransition('wipe')">Wipe</button>
+                        <button class="transition-btn" onclick="addTransition('slide')">Slide</button>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Center Preview Area -->
+            <div class="preview-area">
+                <div class="video-container">
+                    <video id="video-player" class="video-player" controls>
+                        Your browser does not support the video tag.
+                    </video>
+                    <canvas id="video-canvas" class="video-canvas" style="display: none;"></canvas>
+                    
+                    <!-- Playback Controls -->
+                    <div class="playback-controls">
+                        <button class="play-btn" onclick="togglePlayback()" aria-label="Play/Pause">
+                            <svg id="play-icon" width="24" height="24">
+                                <path d="M6 4l12 8-12 8z" fill="currentColor"/>
+                            </svg>
+                        </button>
+                        <span class="time-display">
+                            <span id="current-time">00:00</span> / <span id="duration">00:00</span>
+                        </span>
+                        <input type="range" class="volume-slider" min="0" max="100" value="100" onchange="setVolume(this.value)" aria-label="Volume">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Properties Panel -->
+            <aside class="properties-panel">
+                <h3>Properties</h3>
+                <div id="properties-content">
+                    <p class="empty-state">Select an element to view properties</p>
+                </div>
+            </aside>
+        </div>
+
+        <!-- Timeline Area -->
+        <div class="timeline-container">
+            <div class="timeline-header">
+                <div class="timeline-tools">
+                    <button class="btn-icon" onclick="splitClip()" aria-label="Split clip" title="Split (S)">
+                        <svg width="20" height="20"><path d="M10 2v16M5 7l5-5 5 5M5 13l5 5 5-5" stroke="currentColor" stroke-width="2" fill="none"/></svg>
+                    </button>
+                    <button class="btn-icon" onclick="deleteClip()" aria-label="Delete clip" title="Delete (Del)">
+                        <svg width="20" height="20"><path d="M4 6h12M8 6V4h4v2M6 6v10h8V6" stroke="currentColor" stroke-width="2" fill="none"/></svg>
+                    </button>
+                </div>
+                <div class="timeline-zoom">
+                    <button onclick="timelineZoomOut()">-</button>
+                    <input type="range" class="timeline-zoom-slider" min="10" max="200" value="100">
+                    <button onclick="timelineZoomIn()">+</button>
+                </div>
+            </div>
+            
+            <div class="timeline">
+                <div class="timeline-ruler" id="timeline-ruler">
+                    <!-- Time markers will be generated here -->
+                </div>
+                <div class="timeline-tracks" id="timeline-tracks">
+                    <div class="timeline-track" data-track="video">
+                        <div class="track-header">Video</div>
+                        <div class="track-content"></div>
+                    </div>
+                    <div class="timeline-track" data-track="audio">
+                        <div class="track-header">Audio</div>
+                        <div class="track-content"></div>
+                    </div>
+                    <div class="timeline-track" data-track="effects">
+                        <div class="track-header">Effects</div>
+                        <div class="track-content"></div>
+                    </div>
+                </div>
+                <div class="timeline-playhead" id="playhead"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/editor.js"></script>
+</body>
+</html>

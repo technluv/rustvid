@@ -17,6 +17,11 @@ document.addEventListener('DOMContentLoaded', () => {
     initFormHandlers();
 });
 
+// Launch editor function
+function launchEditor() {
+    window.location.href = 'editor.html';
+}
+
 // Navigation functionality
 function initNavigation() {
     // Mobile menu toggle
