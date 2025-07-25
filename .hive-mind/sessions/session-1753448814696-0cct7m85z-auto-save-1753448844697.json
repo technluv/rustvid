@@ -1,0 +1,81 @@
+{
+  "sessionId": "session-1753448814696-0cct7m85z",
+  "checkpointId": "checkpoint-1753448844697-uj550j8ah",
+  "checkpointName": "auto-save-1753448844697",
+  "timestamp": "2025-07-25T13:07:24.697Z",
+  "data": {
+    "timestamp": "2025-07-25T13:07:24.697Z",
+    "changeCount": 5,
+    "changesByType": {
+      "swarm_created": [
+        {
+          "type": "swarm_created",
+          "data": {
+            "swarmId": "swarm-1753448814692-59jidi0aa",
+            "swarmName": "hive-1753448814688",
+            "objective": "ULTIMATE TEST AUTOMATION: Extract ALL knowledge from /workspaces/tcf Rust Video Editor and Claude Flow repos. Generate comprehensive Robot Framework scripts for UI testing. Execute in Docker containers. Verify results and generate reports. Implement learning loop to evolve tests. Use MCP[Σ(TestCaseᵢ ∈ UI)] ⊢ Claudeᵍᵉⁿ ⇒ RobotScriptᵢ ⊂ Docker ⊢ Claudeᵛᵉʳᶦᶠ ← Reportᵢ ∴ Γ(TestCaseₙ₊₁)",
+            "workerCount": 8
+          },
+          "timestamp": "2025-07-25T13:06:54.696Z"
+        }
+      ],
+      "agent_activity": [
+        {
+          "type": "agent_activity",
+          "data": {
+            "agentId": "worker-swarm-1753448814692-59jidi0aa-0",
+            "activity": "spawned",
+            "data": {
+              "type": "researcher",
+              "name": "Researcher Worker 1"
+            }
+          },
+          "timestamp": "2025-07-25T13:06:54.697Z"
+        },
+        {
+          "type": "agent_activity",
+          "data": {
+            "agentId": "worker-swarm-1753448814692-59jidi0aa-1",
+            "activity": "spawned",
+            "data": {
+              "type": "coder",
+              "name": "Coder Worker 2"
+            }
+          },
+          "timestamp": "2025-07-25T13:06:54.697Z"
+        },
+        {
+          "type": "agent_activity",
+          "data": {
+            "agentId": "worker-swarm-1753448814692-59jidi0aa-2",
+            "activity": "spawned",
+            "data": {
+              "type": "analyst",
+              "name": "Analyst Worker 3"
+            }
+          },
+          "timestamp": "2025-07-25T13:06:54.697Z"
+        },
+        {
+          "type": "agent_activity",
+          "data": {
+            "agentId": "worker-swarm-1753448814692-59jidi0aa-3",
+            "activity": "spawned",
+            "data": {
+              "type": "tester",
+              "name": "Tester Worker 4"
+            }
+          },
+          "timestamp": "2025-07-25T13:06:54.697Z"
+        }
+      ]
+    },
+    "statistics": {
+      "tasksProcessed": 0,
+      "tasksCompleted": 0,
+      "memoryUpdates": 0,
+      "agentActivities": 4,
+      "consensusDecisions": 0
+    }
+  }
+}
